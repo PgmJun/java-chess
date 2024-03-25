@@ -23,7 +23,7 @@ public class ChessGame {
     public void start() {
         outputView.printGameStartMessage();
 
-        Turn turn = new Turn();
+        Turn turn = Turn.firstTurn();
         CommandInfoDto commandInfoDto = inputView.readCommand();
         ChessBoard chessBoard = new ChessBoard(ChessBoardGenerator.getInstance());
 
