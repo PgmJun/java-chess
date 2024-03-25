@@ -256,6 +256,6 @@ public class ChessBoardTest {
         // then
         assertThatThrownBy(() -> chessBoard.move(Position.A1, Position.H1, turn))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("해당 색의 차례가 아닙니다.");
+                .hasMessage("WHITE 색의 차례가 아닙니다.");
     }
 }
