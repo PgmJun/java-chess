@@ -3,10 +3,13 @@ package chess.controller;
 import chess.domain.Turn;
 import chess.domain.board.ChessBoard;
 import chess.domain.board.ChessBoardGenerator;
+import chess.domain.position.Position;
 import chess.dto.BoardStatus;
 import chess.dto.CommandInfo;
 import chess.view.InputView;
 import chess.view.OutputView;
+import chess.view.matcher.ChessFileMatcher;
+import chess.view.matcher.ChessRankMatcher;
 
 public class ChessGame {
     private final InputView inputView;
@@ -36,9 +39,16 @@ public class ChessGame {
                 throw new IllegalArgumentException("게임 도중 start 명령어를 입력할 수 없습니다.");
             }
             if (commandInfo.command().isMove()) {
-                chessBoard.move(commandInfo.source().get(), commandInfo.target().get(), turn);
+                chessBoard.move(extractPosition(commandInfo.source()), extractPosition(commandInfo.target()), turn);
             }
         }
         // 게임 종료
+    }
+
+    private Position extractPosition(final String positionText) {
+        String file = String.valueOf(positionText.charAt(0));
+        String rank = String.valueOf(positionText.charAt(1));
+
+        return Position.of(ChessFileMatcher.matchByText(file), ChessRankMatcher.matchByText(rank));
     }
 }
