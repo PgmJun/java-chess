@@ -1,6 +1,6 @@
 package chess.view.matcher;
 
-import chess.domain.Command;
+import chess.view.Command;
 
 import java.util.Arrays;
 

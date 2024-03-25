@@ -1,6 +1,6 @@
 package chess.dto;
 
-import chess.domain.Command;
+import chess.view.Command;
 
 public record CommandInfoDto(
         Command command,

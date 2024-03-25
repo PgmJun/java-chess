@@ -1,6 +1,6 @@
 package chess.view.matcher;
 
-import chess.domain.Command;
+import chess.view.Command;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

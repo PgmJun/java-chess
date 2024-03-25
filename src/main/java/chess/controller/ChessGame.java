@@ -6,6 +6,7 @@ import chess.domain.board.ChessBoardGenerator;
 import chess.domain.position.Position;
 import chess.dto.BoardStatusDto;
 import chess.dto.CommandInfoDto;
+import chess.view.Command;
 import chess.view.InputView;
 import chess.view.OutputView;
 import chess.view.matcher.ChessFileMatcher;
@@ -25,20 +26,22 @@ public class ChessGame {
 
         Turn turn = Turn.firstTurn();
         CommandInfoDto commandInfoDto = inputView.readCommand();
+        Command command = commandInfoDto.command();
         ChessBoard chessBoard = new ChessBoard(ChessBoardGenerator.getInstance());
 
-        if (!commandInfoDto.command().isStart()) {
+        if (command.isType(Command.START)) {
             throw new IllegalArgumentException("아직 게임이 시작되지 않았습니다.");
         }
-        while (!commandInfoDto.command().isEnd()) {
+        while (command.isNotType(Command.END)) {
             BoardStatusDto boardStatusDto = chessBoard.status();
             outputView.printChessBoard(boardStatusDto);
 
             commandInfoDto = inputView.readCommand();
-            if (commandInfoDto.command().isStart()) {
+            command = commandInfoDto.command();
+            if (command.isType(Command.START)) {
                 throw new IllegalArgumentException("게임 도중 start 명령어를 입력할 수 없습니다.");
             }
-            if (commandInfoDto.command().isMove()) {
+            if (command.isType(Command.MOVE)) {
                 chessBoard.move(extractPosition(commandInfoDto.source()), extractPosition(commandInfoDto.target()), turn);
             }
         }
