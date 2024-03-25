@@ -1,6 +1,6 @@
 package chess.view;
 
-import chess.dto.CommandInfo;
+import chess.dto.CommandInfoDto;
 import chess.view.matcher.CommandMatcher;
 
 import java.util.Scanner;
@@ -18,14 +18,14 @@ public class InputView {
         return INSTANCE;
     }
 
-    public CommandInfo readCommand() {
+    public CommandInfoDto readCommand() {
         String[] commandText = scanner.nextLine().split(" ");
         if (commandText.length == 1) {
-            return CommandInfo.fromNonMovable(CommandMatcher.matchByText(commandText[0]));
+            return CommandInfoDto.fromNonMovable(CommandMatcher.matchByText(commandText[0]));
         }
         if (commandText.length == 3) {
             validatePosition(commandText[1], commandText[2]);
-            return CommandInfo.ofMovable(
+            return CommandInfoDto.ofMovable(
                     CommandMatcher.matchByText(commandText[0]), commandText[1], commandText[2]);
         }
         throw new IllegalArgumentException("명령 입력 형식이 올바르지 않습니다.");

@@ -4,8 +4,8 @@ import chess.domain.Turn;
 import chess.domain.board.ChessBoard;
 import chess.domain.board.ChessBoardGenerator;
 import chess.domain.position.Position;
-import chess.dto.BoardStatus;
-import chess.dto.CommandInfo;
+import chess.dto.BoardStatusDto;
+import chess.dto.CommandInfoDto;
 import chess.view.InputView;
 import chess.view.OutputView;
 import chess.view.matcher.ChessFileMatcher;
@@ -24,22 +24,22 @@ public class ChessGame {
         outputView.printGameStartMessage();
 
         Turn turn = new Turn();
-        CommandInfo commandInfo = inputView.readCommand();
+        CommandInfoDto commandInfoDto = inputView.readCommand();
         ChessBoard chessBoard = new ChessBoard(ChessBoardGenerator.getInstance());
 
-        if (!commandInfo.command().isStart()) {
+        if (!commandInfoDto.command().isStart()) {
             throw new IllegalArgumentException("아직 게임이 시작되지 않았습니다.");
         }
-        while (!commandInfo.command().isEnd()) {
-            BoardStatus boardStatus = chessBoard.status();
-            outputView.printChessBoard(boardStatus);
+        while (!commandInfoDto.command().isEnd()) {
+            BoardStatusDto boardStatusDto = chessBoard.status();
+            outputView.printChessBoard(boardStatusDto);
 
-            commandInfo = inputView.readCommand();
-            if (commandInfo.command().isStart()) {
+            commandInfoDto = inputView.readCommand();
+            if (commandInfoDto.command().isStart()) {
                 throw new IllegalArgumentException("게임 도중 start 명령어를 입력할 수 없습니다.");
             }
-            if (commandInfo.command().isMove()) {
-                chessBoard.move(extractPosition(commandInfo.source()), extractPosition(commandInfo.target()), turn);
+            if (commandInfoDto.command().isMove()) {
+                chessBoard.move(extractPosition(commandInfoDto.source()), extractPosition(commandInfoDto.target()), turn);
             }
         }
         // 게임 종료

@@ -5,8 +5,8 @@ import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
 import chess.domain.piece.PieceType;
 import chess.domain.position.Position;
-import chess.dto.BoardStatus;
-import chess.dto.PieceInfo;
+import chess.dto.BoardStatusDto;
+import chess.dto.PieceInfoDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -41,12 +41,12 @@ public class ChessBoardTest {
         );
 
         // then
-        BoardStatus boardStatus = chessBoard.status();
-        List<PieceInfo> pieceInfos = boardStatus.pieceInfos();
+        BoardStatusDto boardStatusDto = chessBoard.status();
+        List<PieceInfoDto> pieceInfoDtos = boardStatusDto.pieceInfoDtos();
 
         assertAll(
-                () -> assertThat(pieceInfos.contains(new PieceInfo(1, 2, PieceType.WHITE_PAWN))).isTrue(),
-                () -> assertThat(pieceInfos.contains(new PieceInfo(1, 1, PieceType.WHITE_PAWN))).isFalse()
+                () -> assertThat(pieceInfoDtos.contains(new PieceInfoDto(1, 2, PieceType.WHITE_PAWN))).isTrue(),
+                () -> assertThat(pieceInfoDtos.contains(new PieceInfoDto(1, 1, PieceType.WHITE_PAWN))).isFalse()
         );
     }
 
@@ -175,7 +175,7 @@ public class ChessBoardTest {
     @Test
     void canPawnMoveDiagonal() {
         // given
-        PieceInfo expected = PieceInfo.of(Position.C3, new Piece(PieceType.WHITE_PAWN));
+        PieceInfoDto expected = PieceInfoDto.of(Position.C3, new Piece(PieceType.WHITE_PAWN));
 
         BoardGeneratorStub generatorStub = new BoardGeneratorStub();
         HashMap<Position, Piece> board = new HashMap<>();
@@ -190,10 +190,10 @@ public class ChessBoardTest {
                 Position.B2,
                 Position.C3,
                 new Turn(PieceColor.WHITE));
-        List<PieceInfo> pieceInfos = chessBoard.status().pieceInfos();
+        List<PieceInfoDto> pieceInfoDtos = chessBoard.status().pieceInfoDtos();
 
         // then
-        assertThat(pieceInfos).contains(expected);
+        assertThat(pieceInfoDtos).contains(expected);
     }
 
     @DisplayName("폰은 타겟에 상대 기물이 없으면 대각선으로 이동할 수 없다.")

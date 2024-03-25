@@ -2,8 +2,8 @@ package chess.view;
 
 import chess.domain.position.ChessFile;
 import chess.domain.position.ChessRank;
-import chess.dto.BoardStatus;
-import chess.dto.PieceInfo;
+import chess.dto.BoardStatusDto;
+import chess.dto.PieceInfoDto;
 import chess.view.matcher.PieceNameMatcher;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class OutputView {
         System.out.println(startMessageJoiner);
     }
 
-    public void printChessBoard(final BoardStatus status) {
+    public void printChessBoard(final BoardStatusDto status) {
         List<List<String>> board = createInitBoard();
         applyBoardStatus(status, board);
 
@@ -53,11 +53,11 @@ public class OutputView {
         return board;
     }
 
-    private void applyBoardStatus(final BoardStatus status, final List<List<String>> board) {
-        for (PieceInfo pieceInfo : status.pieceInfos()) {
-            int rankIndex = ChessRank.maxIndex() - pieceInfo.rankIndex();
-            int fileIndex = pieceInfo.fileIndex();
-            board.get(rankIndex).set(fileIndex, PieceNameMatcher.matchByType(pieceInfo.type()));
+    private void applyBoardStatus(final BoardStatusDto status, final List<List<String>> board) {
+        for (PieceInfoDto pieceInfoDto : status.pieceInfoDtos()) {
+            int rankIndex = ChessRank.maxIndex() - pieceInfoDto.rankIndex();
+            int fileIndex = pieceInfoDto.fileIndex();
+            board.get(rankIndex).set(fileIndex, PieceNameMatcher.matchByType(pieceInfoDto.type()));
         }
     }
 
