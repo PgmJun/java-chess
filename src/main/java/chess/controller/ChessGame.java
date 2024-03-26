@@ -32,7 +32,7 @@ public class ChessGame {
         if (command.isNotType(Command.START)) {
             throw new IllegalArgumentException("아직 게임이 시작되지 않았습니다.");
         }
-        while (command.isNotType(Command.END)) {
+        while (command.isNotType(Command.END) && chessBoard.isNotKingDead()) {
             BoardStatusDto boardStatusDto = chessBoard.status();
             outputView.printChessBoard(boardStatusDto);
 

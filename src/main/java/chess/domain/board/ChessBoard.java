@@ -145,4 +145,12 @@ public class ChessBoard {
         }
         return ScoreRule.DEFAULT;
     }
+
+    public boolean isNotKingDead() {
+        long kingCount = board.values().stream()
+                .filter(Piece::isKing)
+                .count();
+
+        return kingCount == 2;
+    }
 }

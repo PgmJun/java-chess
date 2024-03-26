@@ -28,6 +28,10 @@ public class Piece {
         return this.type == PieceType.BLACK_PAWN || this.type == PieceType.WHITE_PAWN;
     }
 
+    public boolean isKing() {
+        return this.type == PieceType.BLACK_KING || this.type == PieceType.WHITE_KING;
+    }
+
     public PieceType type() {
         return type;
     }

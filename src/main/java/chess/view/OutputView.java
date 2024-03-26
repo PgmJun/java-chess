@@ -72,11 +72,9 @@ public class OutputView {
 
     public void printGameStatus(final ChessScoreDto chessScore) {
         StringJoiner gameStatusMessage = new StringJoiner(System.lineSeparator());
-
         gameStatusMessage.add(String.format("> 검은색: %.1f", chessScore.blackScore()));
         gameStatusMessage.add(String.format("> 흰색: %.1f", chessScore.whiteScore()));
         gameStatusMessage.add(String.format("> 우승 진영: %s", getWinnerTeamName(chessScore)));
-        gameStatusMessage.add(System.lineSeparator());
 
         System.out.println(gameStatusMessage);
     }
@@ -93,5 +91,7 @@ public class OutputView {
         gameResultMessage.add("> 체스 게임이 종료되었습니다.");
         gameResultMessage.add("> 게임 결과 : status");
         gameResultMessage.add("> 게임 종료 : end");
+
+        System.out.println(gameResultMessage);
     }
 }
