@@ -1,5 +1,6 @@
 package chess.domain.piece;
 
+import chess.domain.ScoreState;
 import chess.domain.piece.strategy.MovementStrategy;
 import chess.domain.position.Position;
 
@@ -29,5 +30,9 @@ public class Piece {
 
     public PieceColor color() {
         return type.color();
+    }
+
+    public double calculateScore(final ScoreState scoreState) {
+        return scoreState.calculate(type.score());
     }
 }
