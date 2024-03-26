@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class ScoreStateTest {
+class ScoreRuleTest {
 
     @DisplayName("ScoreState 가 DEFAULT 이면 점수가 그대로이다.")
     @Test
@@ -16,7 +16,7 @@ class ScoreStateTest {
         Piece piece = new Piece(PieceType.BLACK_PAWN);
 
         // when
-        double score = piece.calculateScore(ScoreState.DEFAULT);
+        double score = piece.calculateScore(ScoreRule.DEFAULT);
 
         // then
         assertThat(score).isEqualTo(1);
@@ -29,7 +29,7 @@ class ScoreStateTest {
         Piece piece = new Piece(PieceType.BLACK_PAWN);
 
         // when
-        double score = piece.calculateScore(ScoreState.HALF);
+        double score = piece.calculateScore(ScoreRule.HALF);
 
         // then
         assertThat(score).isEqualTo(0.5);

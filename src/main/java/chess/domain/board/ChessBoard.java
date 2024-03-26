@@ -1,16 +1,22 @@
 package chess.domain.board;
 
 import chess.domain.Direction;
+import chess.domain.ScoreRule;
 import chess.domain.Turn;
 import chess.domain.piece.Piece;
+import chess.domain.piece.PieceColor;
 import chess.domain.piece.PieceType;
+import chess.domain.position.ChessFile;
 import chess.domain.position.Position;
 import chess.dto.BoardStatusDto;
+import chess.dto.ChessScoreDto;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+// TODO: 책임 분리
 public class ChessBoard {
     private final Map<Position, Piece> board;
 
@@ -100,5 +106,43 @@ public class ChessBoard {
 
     private boolean isExist(Position position) {
         return board.containsKey(position);
+    }
+
+    public ChessScoreDto calculateScore() {
+        double blackScore = 0;
+        double whiteScore = 0;
+
+        for (ChessFile file : ChessFile.values()) {
+            whiteScore += calculateScore(getFilePiecesByColor(file, PieceColor.WHITE));
+            blackScore += calculateScore(getFilePiecesByColor(file, PieceColor.BLACK));
+        }
+        return new ChessScoreDto(whiteScore, blackScore);
+    }
+
+    private List<Piece> getFilePiecesByColor(final ChessFile file, final PieceColor color) {
+        return board.entrySet().stream()
+                .filter(entry ->
+                        entry.getKey().isFile(file) && entry.getValue().isColor(color))
+                .map(Map.Entry::getValue)
+                .toList();
+    }
+
+    private double calculateScore(final List<Piece> filePieces) {
+        final long pawnCount = filePieces.stream()
+                .filter(Piece::isPawn)
+                .count();
+
+        double score = 0;
+        for (Piece piece : filePieces) {
+            score += piece.calculateScore(getScoreRule(piece, pawnCount));
+        }
+        return score;
+    }
+
+    private ScoreRule getScoreRule(Piece piece, long pawnCount) {
+        if (piece.isPawn() && pawnCount > 1) {
+            return ScoreRule.HALF;
+        }
+        return ScoreRule.DEFAULT;
     }
 }

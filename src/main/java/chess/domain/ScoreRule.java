@@ -2,14 +2,14 @@ package chess.domain;
 
 import java.util.function.Function;
 
-public enum ScoreState {
+public enum ScoreRule {
     DEFAULT(s -> s),
     HALF(s -> s / 2),
     ;
 
     private final Function<Double, Double> function;
 
-    ScoreState(Function<Double, Double> function) {
+    ScoreRule(Function<Double, Double> function) {
         this.function = function;
     }
 

@@ -6,6 +6,7 @@ import chess.domain.piece.PieceColor;
 import chess.domain.piece.PieceType;
 import chess.domain.position.Position;
 import chess.dto.BoardStatusDto;
+import chess.dto.ChessScoreDto;
 import chess.dto.PieceInfoDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -257,5 +258,37 @@ public class ChessBoardTest {
         assertThatThrownBy(() -> chessBoard.move(Position.A1, Position.H1, turn))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("WHITE 색의 차례가 아닙니다.");
+    }
+
+    @DisplayName("체스판 위에 있는 기물 점수를 기물을 색 별로 계산한다.")
+    @Test
+    void calculatePieceScore() {
+        // given
+        ChessBoard chessBoard = new ChessBoard(ChessBoardGenerator.getInstance());
+
+        // when
+        ChessScoreDto chessScore = chessBoard.calculateScore();
+
+        // then
+        assertThat(chessScore.whiteScore()).isEqualTo(38);
+        assertThat(chessScore.blackScore()).isEqualTo(38);
+    }
+
+    @DisplayName("같은 File에 폰이 2개 이상 존재한다면 개당 0.5점으로 계산한다.")
+    @Test
+    void calculatePawnsOnFileScore() {
+        // given
+        BoardGeneratorStub boardGenerator = new BoardGeneratorStub();
+        HashMap<Position, Piece> board = new HashMap<>();
+        board.put(Position.A2, new Piece(PieceType.BLACK_PAWN));
+        board.put(Position.A3, new Piece(PieceType.BLACK_PAWN));
+        boardGenerator.setBoard(board);
+        ChessBoard chessBoard = new ChessBoard(boardGenerator);
+
+        // when
+        ChessScoreDto chessScore = chessBoard.calculateScore();
+
+        // then
+        assertThat(chessScore.blackScore()).isEqualTo(1.0);
     }
 }

@@ -1,6 +1,6 @@
 package chess.domain.piece;
 
-import chess.domain.ScoreState;
+import chess.domain.ScoreRule;
 import chess.domain.piece.strategy.MovementStrategy;
 import chess.domain.position.Position;
 
@@ -24,6 +24,10 @@ public class Piece {
         return this.type == pieceType;
     }
 
+    public boolean isPawn() {
+        return this.type == PieceType.BLACK_PAWN || this.type == PieceType.WHITE_PAWN;
+    }
+
     public PieceType type() {
         return type;
     }
@@ -32,7 +36,7 @@ public class Piece {
         return type.color();
     }
 
-    public double calculateScore(final ScoreState scoreState) {
-        return scoreState.calculate(type.score());
+    public double calculateScore(final ScoreRule scoreRule) {
+        return scoreRule.calculate(type.score());
     }
 }
