@@ -2,15 +2,16 @@ package chess.dto;
 
 import chess.view.Command;
 
+import java.util.List;
+
 public record CommandInfoDto(
         Command command,
-        String source,
-        String target) {
-    public static CommandInfoDto fromNonMovable(final Command command) {
-        return new CommandInfoDto(command, "", "");
+        List<String> options) {
+    public static CommandInfoDto noneOptions(final Command command) {
+        return new CommandInfoDto(command, List.of());
     }
 
-    public static CommandInfoDto ofMovable(final Command command, final String source, final String target) {
-        return new CommandInfoDto(command, source, target);
+    public static CommandInfoDto Options(final Command command, final List<String> options) {
+        return new CommandInfoDto(command, options);
     }
 }

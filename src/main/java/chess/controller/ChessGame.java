@@ -38,14 +38,24 @@ public class ChessGame {
 
             commandInfoDto = inputView.readCommand();
             command = commandInfoDto.command();
-            if (command.isType(Command.START)) {
-                throw new IllegalArgumentException("게임 도중 start 명령어를 입력할 수 없습니다.");
+            if (command.isType(Command.START) || command.isType(Command.STATUS)) {
+                throw new IllegalArgumentException(String.format("게임 도중 %s 명령어를 입력할 수 없습니다.", command));
             }
             if (command.isType(Command.MOVE)) {
-                chessBoard.move(extractPosition(commandInfoDto.source()), extractPosition(commandInfoDto.target()), turn);
+                chessBoard.move(
+                        extractPosition(commandInfoDto.options().get(0)),
+                        extractPosition(commandInfoDto.options().get(1)),
+                        turn
+                );
             }
         }
-        // 게임 종료
+        while (command.isNotType(Command.END)) {
+            outputView.printGameResultMessage();
+            command = inputView.readCommand().command();
+            if (command.isType(Command.STATUS)) {
+                outputView.printGameStatus(chessBoard.calculateScore());
+            }
+        }
     }
 
     private Position extractPosition(final String positionText) {

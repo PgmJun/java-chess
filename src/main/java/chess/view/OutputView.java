@@ -3,6 +3,7 @@ package chess.view;
 import chess.domain.position.ChessFile;
 import chess.domain.position.ChessRank;
 import chess.dto.BoardStatusDto;
+import chess.dto.ChessScoreDto;
 import chess.dto.PieceInfoDto;
 import chess.view.matcher.PieceNameMatcher;
 
@@ -67,5 +68,30 @@ public class OutputView {
             lineBuilder.append(point);
         }
         return lineBuilder;
+    }
+
+    public void printGameStatus(final ChessScoreDto chessScore) {
+        StringJoiner gameStatusMessage = new StringJoiner(System.lineSeparator());
+
+        gameStatusMessage.add(String.format("> 검은색: %.1f", chessScore.blackScore()));
+        gameStatusMessage.add(String.format("> 흰색: %.1f", chessScore.whiteScore()));
+        gameStatusMessage.add(String.format("> 우승 진영: %s", getWinnerTeamName(chessScore)));
+        gameStatusMessage.add(System.lineSeparator());
+
+        System.out.println(gameStatusMessage);
+    }
+
+    private String getWinnerTeamName(final ChessScoreDto chessScore) {
+        if (chessScore.whiteScore() > chessScore.blackScore()) {
+            return "흰색";
+        }
+        return "검은색";
+    }
+
+    public void printGameResultMessage() {
+        StringJoiner gameResultMessage = new StringJoiner(System.lineSeparator());
+        gameResultMessage.add("> 체스 게임이 종료되었습니다.");
+        gameResultMessage.add("> 게임 결과 : status");
+        gameResultMessage.add("> 게임 종료 : end");
     }
 }

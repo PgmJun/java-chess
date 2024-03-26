@@ -3,6 +3,7 @@ package chess.view;
 import chess.dto.CommandInfoDto;
 import chess.view.matcher.CommandMatcher;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class InputView {
@@ -20,13 +21,13 @@ public class InputView {
 
     public CommandInfoDto readCommand() {
         String[] commandText = scanner.nextLine().split(" ");
-        if (commandText.length == 1) {
-            return CommandInfoDto.fromNonMovable(CommandMatcher.matchByText(commandText[0]));
+        Command command = CommandMatcher.matchByText(commandText[0]);
+        if (command.isType(Command.START) || command.isType(Command.END) || command.isType(Command.STATUS)) {
+            return CommandInfoDto.noneOptions(command);
         }
-        if (commandText.length == 3) {
+        if (command.isType(Command.MOVE)) {
             validatePosition(commandText[1], commandText[2]);
-            return CommandInfoDto.ofMovable(
-                    CommandMatcher.matchByText(commandText[0]), commandText[1], commandText[2]);
+            return CommandInfoDto.Options(command, List.of(commandText[1], commandText[2]));
         }
         throw new IllegalArgumentException("명령 입력 형식이 올바르지 않습니다.");
     }

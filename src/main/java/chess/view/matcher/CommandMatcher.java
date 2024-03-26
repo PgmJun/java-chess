@@ -7,7 +7,9 @@ import java.util.Arrays;
 public enum CommandMatcher {
     START("start", Command.START),
     END("end", Command.END),
-    MOVE("move", Command.MOVE);
+    MOVE("move", Command.MOVE),
+    STATUS("status", Command.STATUS),
+    ;
 
     private final String text;
     private final Command command;
