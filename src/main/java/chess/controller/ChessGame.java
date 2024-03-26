@@ -29,7 +29,7 @@ public class ChessGame {
         Command command = commandInfoDto.command();
         ChessBoard chessBoard = new ChessBoard(ChessBoardGenerator.getInstance());
 
-        if (command.isType(Command.START)) {
+        if (command.isNotType(Command.START)) {
             throw new IllegalArgumentException("아직 게임이 시작되지 않았습니다.");
         }
         while (command.isNotType(Command.END)) {
