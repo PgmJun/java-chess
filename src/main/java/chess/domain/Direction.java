@@ -5,6 +5,7 @@ import chess.domain.position.Position;
 import java.util.Set;
 
 public enum Direction {
+    TOP,
     DOWN,
     LEFT,
     RIGHT,
@@ -12,9 +13,9 @@ public enum Direction {
     TOP_LEFT,
     DOWN_RIGHT,
     DOWN_LEFT,
-    TOP,
     ;
 
+    // TODO: 최대공약수로 단위백터 구하기
     public static Direction of(final Position source, final Position target) {
         if (source.indexOfFile() == target.indexOfFile()) {
             return calculateVertical(source, target);
