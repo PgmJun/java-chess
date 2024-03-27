@@ -53,7 +53,7 @@ public class ChessGame {
             outputView.printGameResultMessage();
             command = inputView.readCommand().command();
             if (command.isType(Command.STATUS)) {
-                outputView.printGameStatus(chessBoard.calculateScore());
+                outputView.printGameStatus(chessBoard.result());
             }
         }
     }
