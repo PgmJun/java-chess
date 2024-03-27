@@ -1,6 +1,6 @@
 package chess.domain.piece;
 
-import chess.domain.ScoreRule;
+import chess.domain.game.ScoreRule;
 import chess.domain.piece.strategy.MovementStrategy;
 import chess.domain.position.Position;
 
@@ -30,6 +30,10 @@ public class Piece {
 
     public boolean isKing() {
         return this.type == PieceType.BLACK_KING || this.type == PieceType.WHITE_KING;
+    }
+
+    public boolean isKnight() {
+        return this.type == PieceType.BLACK_KNIGHT || this.type == PieceType.WHITE_KNIGHT;
     }
 
     public PieceType type() {

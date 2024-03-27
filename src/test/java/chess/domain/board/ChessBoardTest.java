@@ -1,6 +1,6 @@
 package chess.domain.board;
 
-import chess.domain.Turn;
+import chess.domain.game.Turn;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
 import chess.domain.piece.PieceType;

@@ -1,8 +1,8 @@
 package chess.domain.board;
 
 import chess.domain.Direction;
-import chess.domain.Turn;
 import chess.domain.game.GameResult;
+import chess.domain.game.Turn;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceType;
 import chess.domain.position.Position;
@@ -28,7 +28,8 @@ public class ChessBoard {
     }
 
     public void move(final Position source, final Position target, final Turn turn) {
-        validate(source, target, turn);
+        turn.isTurn(board.get(source).color());
+        validate(source, target);
 
         Piece sourcePiece = board.get(source);
         board.put(target, sourcePiece);
@@ -37,9 +38,9 @@ public class ChessBoard {
         turn.next();
     }
 
-    private void validate(final Position source, final Position target, final Turn turn) {
+    // TODO: validate 덩어리가 너무 커서 책임 분리가 필요한 시점
+    private void validate(final Position source, final Position target) {
         validatePosition(source, target);
-        turn.validateTurnState(board.get(source).color());
         validateTarget(source, target);
         validateMovement(source, target);
         validatePath(source, target);
@@ -77,7 +78,7 @@ public class ChessBoard {
 
     private void validatePath(final Position source, final Position target) {
         Piece sourcePiece = board.get(source);
-        if (!PieceType.isKnight(sourcePiece)) {
+        if (!sourcePiece.isKnight()) {
             source.findBetween(target).stream()
                     .filter(board::containsKey)
                     .findAny()
@@ -87,6 +88,7 @@ public class ChessBoard {
         }
     }
 
+    // TODO: isNotKingDead 라는 네이밍 적절할까?
     public boolean isNotKingDead() {
         long kingCount = board.values().stream()
                 .filter(Piece::isKing)

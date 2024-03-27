@@ -1,8 +1,8 @@
 package chess.controller;
 
-import chess.domain.Turn;
 import chess.domain.board.ChessBoard;
 import chess.domain.board.ChessBoardGenerator;
+import chess.domain.game.Turn;
 import chess.domain.position.Position;
 import chess.dto.BoardStatusDto;
 import chess.dto.CommandInfoDto;

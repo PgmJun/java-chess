@@ -1,10 +1,10 @@
-package chess.domain;
+package chess.domain.game;
 
 import chess.domain.piece.PieceColor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 class TurnTest {
 
@@ -18,6 +18,7 @@ class TurnTest {
         turn.next();
 
         //then
-        assertThat(turn.isTurn(PieceColor.WHITE)).isTrue();
+        assertThatCode(() -> turn.isTurn(PieceColor.WHITE))
+                .doesNotThrowAnyException();
     }
 }
