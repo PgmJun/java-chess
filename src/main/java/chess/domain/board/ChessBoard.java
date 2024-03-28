@@ -14,22 +14,24 @@ import java.util.Map;
 // TODO: 책임 분리
 public class ChessBoard {
     private final Map<Position, Piece> board;
+    private final Turn turn;
 
     public ChessBoard(final BoardGenerator boardGenerator) {
-        this(boardGenerator.generate());
+        this(boardGenerator.generate(), Turn.firstTurn());
     }
 
-    private ChessBoard(final Map<Position, Piece> board) {
+    public ChessBoard(final Map<Position, Piece> board, final Turn turn) {
         this.board = new HashMap<>(board);
+        this.turn = turn;
     }
 
     public BoardStatusDto status() {
         return BoardStatusDto.from(board);
     }
 
-    public void move(final Position source, final Position target, final Turn turn) {
-        turn.isTurn(board.get(source).color());
+    public void move(final Position source, final Position target) {
         validate(source, target);
+        turn.isTurn(board.get(source).color());
 
         Piece sourcePiece = board.get(source);
         board.put(target, sourcePiece);
