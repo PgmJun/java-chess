@@ -21,10 +21,7 @@ public class Turn {
         color = PieceColor.WHITE;
     }
 
-    // TODO: is라는 네이밍 적절할까?
-    public void isTurn(final PieceColor color) {
-        if (this.color != color) {
-            throw new IllegalArgumentException(String.format("%s 색의 차례가 아닙니다.", color));
-        }
+    public boolean isTurn(final PieceColor color) {
+        return this.color == color;
     }
 }

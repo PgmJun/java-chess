@@ -34,14 +34,6 @@ public enum PieceType {
         this.movementStrategy = movementStrategy;
     }
 
-    public static boolean isKnight(final Piece piece) {
-        return piece.isType(BLACK_KNIGHT) || piece.isType(WHITE_KNIGHT);
-    }
-
-    public static boolean isPawn(final Piece piece) {
-        return piece.isType(BLACK_PAWN) || piece.isType(WHITE_PAWN);
-    }
-
     public PieceColor color() {
         return color;
     }

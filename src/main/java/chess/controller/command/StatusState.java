@@ -1,7 +1,7 @@
 package chess.controller.command;
 
-import chess.controller.ChessGame;
-import chess.domain.board.ChessBoard;
+import chess.controller.ChessController;
+import chess.domain.game.ChessGame;
 import chess.dto.CommandInfoDto;
 import chess.view.Command;
 import chess.view.OutputView;
@@ -9,9 +9,9 @@ import chess.view.OutputView;
 public class StatusState implements GameState {
 
     @Override
-    public void operate(ChessGame chessGame, ChessBoard chessBoard, CommandInfoDto commandInfo) {
+    public void operate(ChessController chessController, ChessGame chessGame, CommandInfoDto commandInfo) {
         OutputView outputView = OutputView.getInstance();
-        outputView.printGameStatus(chessBoard.result());
+        outputView.printGameStatus(chessGame.result());
     }
 
     @Override
@@ -23,7 +23,7 @@ public class StatusState implements GameState {
     }
 
     @Override
-    public boolean isGameEnd() {
+    public boolean isEnd() {
         return false;
     }
 }

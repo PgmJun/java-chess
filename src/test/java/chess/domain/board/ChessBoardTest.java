@@ -38,7 +38,7 @@ public class ChessBoardTest {
         );
 
         // then
-        BoardStatusDto boardStatusDto = chessBoard.status();
+        BoardStatusDto boardStatusDto = chessBoard.state();
         List<PieceInfoDto> pieceInfoDtos = boardStatusDto.pieceInfoDtos();
 
         assertAll(
@@ -178,7 +178,7 @@ public class ChessBoardTest {
         chessBoard.move(
                 Position.B2,
                 Position.C3);
-        List<PieceInfoDto> pieceInfoDtos = chessBoard.status().pieceInfoDtos();
+        List<PieceInfoDto> pieceInfoDtos = chessBoard.state().pieceInfoDtos();
 
         // then
         assertThat(pieceInfoDtos).contains(expected);
@@ -221,26 +221,5 @@ public class ChessBoardTest {
                 Position.B3))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("폰은 대각선으로만 공격할 수 있습니다.");
-    }
-
-    @DisplayName("같은 색상의 기물을 연속해서 움직일 수 없다.")
-    @Test
-    void isNotTurn() {
-        // given
-        BoardGeneratorStub generatorStub = new BoardGeneratorStub();
-        HashMap<Position, Piece> board = new HashMap<>();
-        board.put(Position.B2, new Piece(PieceType.WHITE_PAWN));
-        board.put(Position.A1, new Piece(PieceType.WHITE_ROOK));
-        generatorStub.setBoard(board);
-
-        ChessBoard chessBoard = new ChessBoard(generatorStub);
-
-        // when
-        chessBoard.move(Position.B2, Position.B3);
-
-        // then
-        assertThatThrownBy(() -> chessBoard.move(Position.A1, Position.H1))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("WHITE 색의 차례가 아닙니다.");
     }
 }

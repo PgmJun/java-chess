@@ -2,9 +2,8 @@ package chess.domain.board;
 
 import chess.domain.Direction;
 import chess.domain.game.GameResult;
-import chess.domain.game.Turn;
 import chess.domain.piece.Piece;
-import chess.domain.piece.PieceType;
+import chess.domain.piece.PieceColor;
 import chess.domain.position.Position;
 import chess.dto.BoardStatusDto;
 
@@ -14,30 +13,25 @@ import java.util.Map;
 // TODO: 책임 분리
 public class ChessBoard {
     private final Map<Position, Piece> board;
-    private final Turn turn;
 
     public ChessBoard(final BoardGenerator boardGenerator) {
-        this(boardGenerator.generate(), Turn.firstTurn());
+        this(boardGenerator.generate());
     }
 
-    public ChessBoard(final Map<Position, Piece> board, final Turn turn) {
+    public ChessBoard(final Map<Position, Piece> board) {
         this.board = new HashMap<>(board);
-        this.turn = turn;
     }
 
-    public BoardStatusDto status() {
+    public BoardStatusDto state() {
         return BoardStatusDto.from(board);
     }
 
     public void move(final Position source, final Position target) {
         validate(source, target);
-        turn.isTurn(board.get(source).color());
 
         Piece sourcePiece = board.get(source);
         board.put(target, sourcePiece);
         board.remove(source);
-
-        turn.next();
     }
 
     // TODO: validate 덩어리가 너무 커서 책임 분리가 필요한 시점
@@ -68,7 +62,7 @@ public class ChessBoard {
         if (!sourcePiece.isInMovableRange(source, target)) {
             throw new IllegalArgumentException("기물이 이동할 수 없는 방식입니다.");
         }
-        if (PieceType.isPawn(sourcePiece)) {
+        if (sourcePiece.isPawn()) {
             if (Direction.isDiagonal(source, target) && !board.containsKey(target)) {
                 throw new IllegalArgumentException("폰은 상대 기물이 존재할 때만 대각선 이동이 가능합니다.");
             }
@@ -90,13 +84,21 @@ public class ChessBoard {
         }
     }
 
-    // TODO: isNotKingDead 라는 네이밍 적절할까?
-    public boolean isNotKingDead() {
+    public PieceColor getPieceColorOfPosition(final Position position) {
+        System.out.println(board);
+        if (!board.containsKey(position)) {
+            throw new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다.");
+        }
+        return board.get(position).color();
+
+    }
+
+    public boolean isKingDead() {
         long kingCount = board.values().stream()
                 .filter(Piece::isKing)
                 .count();
 
-        return kingCount == 2;
+        return kingCount != 2;
     }
 
     public GameResult result() {

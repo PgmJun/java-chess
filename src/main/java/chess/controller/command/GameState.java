@@ -1,15 +1,15 @@
 package chess.controller.command;
 
-import chess.controller.ChessGame;
-import chess.domain.board.ChessBoard;
+import chess.controller.ChessController;
+import chess.domain.game.ChessGame;
 import chess.dto.CommandInfoDto;
 import chess.view.Command;
 
 public interface GameState {
 
-    void operate(final ChessGame chessGame, final ChessBoard chessBoard, final CommandInfoDto commandInfo);
+    void operate(final ChessController chessController, final ChessGame chessGame, final CommandInfoDto commandInfo);
 
     GameState changeState(Command command);
 
-    boolean isGameEnd();
+    boolean isEnd();
 }

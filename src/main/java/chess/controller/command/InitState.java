@@ -1,13 +1,13 @@
 package chess.controller.command;
 
-import chess.controller.ChessGame;
-import chess.domain.board.ChessBoard;
+import chess.controller.ChessController;
+import chess.domain.game.ChessGame;
 import chess.dto.CommandInfoDto;
 import chess.view.Command;
 
 public class InitState implements GameState {
     @Override
-    public void operate(ChessGame chessGame, ChessBoard chessBoard, CommandInfoDto commandInfo) {
+    public void operate(ChessController chessController, ChessGame chessGame, CommandInfoDto commandInfo) {
         return;
     }
 
@@ -20,7 +20,7 @@ public class InitState implements GameState {
     }
 
     @Override
-    public boolean isGameEnd() {
+    public boolean isEnd() {
         return false;
     }
 }

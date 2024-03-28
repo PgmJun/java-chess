@@ -47,4 +47,11 @@ public class Piece {
     public double calculateScore(final ScoreRule scoreRule) {
         return scoreRule.calculate(type.score());
     }
+
+    @Override
+    public String toString() {
+        return "Piece{" +
+                "type=" + type +
+                '}';
+    }
 }
