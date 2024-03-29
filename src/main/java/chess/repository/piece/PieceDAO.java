@@ -68,6 +68,23 @@ public class PieceDAO implements PieceRepository {
         }
     }
 
+    @Override
+    public void updatePositionById(Long pieceId, ChessFile file, ChessRank rank) {
+        Connection connection = DBConnectionPool.getConnection();
+        try {
+            PreparedStatement pstmt = connection.prepareStatement("UPDATE piece SET piece.file = ?, piece.rank = ? WHERE piece.piece_id = ?");
+            pstmt.setString(1, file.name());
+            pstmt.setString(2, rank.name());
+            pstmt.setLong(3, pieceId);
+            pstmt.executeUpdate();
+
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            DBConnectionPool.releaseConnection(connection);
+        }
+    }
+
 //
 //    public User findUserById(final String userId) {
 //        Connection connection = DBConnectionPool.getConnection();

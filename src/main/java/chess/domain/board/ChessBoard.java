@@ -103,4 +103,11 @@ public class ChessBoard {
     public GameResult result() {
         return new GameResult(board);
     }
+
+    public Piece getPieceOfPosition(final Position position) {
+        if (!board.containsKey(position)) {
+            throw new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다.");
+        }
+        return board.get(position);
+    }
 }

@@ -1,6 +1,7 @@
 package chess.domain.game;
 
 import chess.domain.board.ChessBoard;
+import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
 import chess.domain.position.Position;
 import chess.dto.BoardStatusDto;
@@ -40,5 +41,18 @@ public class ChessGame {
 
     public GameResult result() {
         return board.result();
+    }
+
+    public Long findPieceIdAtPosition(final Position position) {
+        Piece piece = board.getPieceOfPosition(position);
+        return piece.id();
+    }
+
+    public Long id() {
+        return id;
+    }
+
+    public Turn turn() {
+        return turn;
     }
 }

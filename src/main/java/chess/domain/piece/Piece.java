@@ -48,6 +48,10 @@ public class Piece {
         return this.type == PieceType.KNIGHT;
     }
 
+    public Long id() {
+        return id;
+    }
+
     public PieceType type() {
         return type;
     }

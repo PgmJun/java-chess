@@ -110,4 +110,20 @@ public class GameDAO implements GameRepository {
             DBConnectionPool.releaseConnection(conn);
         }
     }
+
+    @Override
+    public void updateTurnById(Long gameId, PieceColor now) {
+        Connection conn = DBConnectionPool.getConnection();
+        try {
+            PreparedStatement pstmt = conn.prepareStatement("UPDATE game SET game.turn = ? WHERE game.game_id = ?");
+            pstmt.setString(1, now.name());
+            pstmt.setLong(2, gameId);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            DBConnectionPool.releaseConnection(conn);
+        }
+    }
 }

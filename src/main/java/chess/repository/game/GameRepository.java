@@ -1,5 +1,6 @@
 package chess.repository.game;
 
+import chess.domain.piece.PieceColor;
 import chess.entity.GameEntity;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface GameRepository {
     Long add(GameEntity gameName);
 
     Optional<GameEntity> findLastGame();
+
+    void updateTurnById(Long gameId, PieceColor now);
 }

@@ -63,7 +63,7 @@ public class GameService {
                 .orElseThrow(() -> new IllegalArgumentException("가장 최근 플레이한 게임이 존재하지 않습니다."));
         List<PieceEntity> pieceEntities = pieceRepository.findByGameId(gameEntity.getId());
         ChessBoard chessBoard = createBoardByPieceEntities(pieceEntities);
-        return new ChessGame(chessBoard, gameEntity.getTurn());
+        return new ChessGame(gameEntity.getId(), chessBoard, gameEntity.getTurn());
     }
 
     private ChessGame findGameByIdAndTurn(Long gameId, Turn turn) {
@@ -89,5 +89,10 @@ public class GameService {
         }
         ChessBoard chessBoard = new ChessBoard(board);
         return chessBoard;
+    }
+
+    public void updateGame(final Long gameId, final Turn turn, final Long pieceId, final Position target) {
+        gameRepository.updateTurnById(gameId, turn.now());
+        pieceRepository.updatePositionById(pieceId, target.file(), target.rank());
     }
 }

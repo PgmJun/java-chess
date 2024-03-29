@@ -12,10 +12,10 @@ public class MoveCommand implements GameCommand {
 
     @Override
     public void execute(final ChessController chessController, final ChessGame chessGame, final CommandInfoDto commandInfo) {
-        chessController.move(chessGame,
-                extractPosition(commandInfo.options().get(0)),
-                extractPosition(commandInfo.options().get(1))
-        );
+        Position source = extractPosition(commandInfo.options().get(0));
+        Position target = extractPosition(commandInfo.options().get(1));
+        chessController.move(chessGame, source, target);
+
         chessController.printBoardState(chessGame);
         chessController.play(chessGame);
     }
