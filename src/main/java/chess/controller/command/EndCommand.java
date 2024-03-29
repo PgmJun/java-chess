@@ -5,15 +5,15 @@ import chess.domain.game.ChessGame;
 import chess.dto.CommandInfoDto;
 import chess.view.Command;
 
-public class EndState implements GameState {
+public class EndCommand implements GameCommand {
 
     @Override
-    public void operate(ChessController chessController, ChessGame chessGame, CommandInfoDto commandInfo) {
+    public void execute(ChessController chessController, ChessGame chessGame, CommandInfoDto commandInfo) {
         return;
     }
 
     @Override
-    public GameState changeState(final Command command) {
+    public GameCommand changeCommand(final Command command) {
         return this;
     }
 

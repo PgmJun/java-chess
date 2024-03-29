@@ -16,6 +16,7 @@ public class GameResult {
     }
 
     public PieceColor winnerTeam() {
+        // TODO: 왕이 죽으면 지는 것이 아니라, 점수로만 계산하는 거면 왕만 죽은 경우 동점인데 어떻게 처리할까
         if (whiteScore() > blackScore()) {
             return PieceColor.WHITE;
         }

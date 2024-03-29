@@ -4,18 +4,17 @@ import chess.controller.ChessController;
 import chess.domain.game.ChessGame;
 import chess.dto.CommandInfoDto;
 import chess.view.Command;
-import chess.view.OutputView;
 
-public class StatusState implements GameState {
+public class StartCommand implements GameCommand {
 
     @Override
-    public void operate(ChessController chessController, ChessGame chessGame, CommandInfoDto commandInfo) {
-        OutputView outputView = OutputView.getInstance();
-        outputView.printGameStatus(chessGame.result());
+    public void execute(ChessController chessController, ChessGame chessGame, CommandInfoDto commandInfo) {
+        chessController.printBoardState(chessGame);
+        chessController.play(chessGame);
     }
 
     @Override
-    public GameState changeState(final Command command) {
+    public GameCommand changeCommand(final Command command) {
         if (command.isType(Command.START)) {
             throw new IllegalArgumentException("게임 중, 해당 명령어를 입력할 수 없습니다.");
         }

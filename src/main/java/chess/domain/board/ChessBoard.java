@@ -85,7 +85,6 @@ public class ChessBoard {
     }
 
     public PieceColor getPieceColorOfPosition(final Position position) {
-        System.out.println(board);
         if (!board.containsKey(position)) {
             throw new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다.");
         }

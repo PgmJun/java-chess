@@ -5,11 +5,11 @@ import chess.domain.game.ChessGame;
 import chess.dto.CommandInfoDto;
 import chess.view.Command;
 
-public interface GameState {
+public interface GameCommand {
 
-    void operate(final ChessController chessController, final ChessGame chessGame, final CommandInfoDto commandInfo);
+    void execute(final ChessController chessController, final ChessGame chessGame, final CommandInfoDto commandInfo);
 
-    GameState changeState(Command command);
+    GameCommand changeCommand(Command command);
 
     boolean isEnd();
 }

@@ -1,33 +1,29 @@
 package chess.view;
 
-import chess.controller.command.EndState;
-import chess.controller.command.GameState;
-import chess.controller.command.MoveState;
-import chess.controller.command.StartState;
-import chess.controller.command.StatusState;
+import chess.controller.command.EndCommand;
+import chess.controller.command.GameCommand;
+import chess.controller.command.MoveCommand;
+import chess.controller.command.StartCommand;
+import chess.controller.command.StatusCommand;
 
 public enum Command {
-    START(new StartState()),
-    END(new EndState()),
-    MOVE(new MoveState()),
-    STATUS(new StatusState()),
+    START(new StartCommand()),
+    END(new EndCommand()),
+    MOVE(new MoveCommand()),
+    STATUS(new StatusCommand()),
     ;
 
-    private final GameState gameState;
+    private final GameCommand gameCommand;
 
-    Command(GameState gameState) {
-        this.gameState = gameState;
+    Command(GameCommand gameCommand) {
+        this.gameCommand = gameCommand;
     }
 
     public boolean isType(Command command) {
         return this == command;
     }
 
-    public boolean isNotType(Command command) {
-        return this != command;
-    }
-
-    public GameState gameState() {
-        return gameState;
+    public GameCommand gameState() {
+        return gameCommand;
     }
 }
