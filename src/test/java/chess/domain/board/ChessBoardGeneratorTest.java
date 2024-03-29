@@ -1,6 +1,7 @@
 package chess.domain.board;
 
 import chess.domain.piece.Piece;
+import chess.domain.piece.PieceColor;
 import chess.domain.piece.PieceType;
 import chess.domain.position.Position;
 import org.junit.jupiter.api.DisplayName;
@@ -24,24 +25,24 @@ public class ChessBoardGeneratorTest {
         assertThat(pieces).hasSize(32);
 
         assertAll(
-                () -> assertThat(countPiece(pieces, PieceType.WHITE_PAWN)).isEqualTo(8),
-                () -> assertThat(countPiece(pieces, PieceType.BLACK_PAWN)).isEqualTo(8),
-                () -> assertThat(countPiece(pieces, PieceType.WHITE_ROOK)).isEqualTo(2),
-                () -> assertThat(countPiece(pieces, PieceType.BLACK_ROOK)).isEqualTo(2),
-                () -> assertThat(countPiece(pieces, PieceType.WHITE_KNIGHT)).isEqualTo(2),
-                () -> assertThat(countPiece(pieces, PieceType.BLACK_KNIGHT)).isEqualTo(2),
-                () -> assertThat(countPiece(pieces, PieceType.WHITE_BISHOP)).isEqualTo(2),
-                () -> assertThat(countPiece(pieces, PieceType.BLACK_BISHOP)).isEqualTo(2),
-                () -> assertThat(countPiece(pieces, PieceType.WHITE_KING)).isEqualTo(1),
-                () -> assertThat(countPiece(pieces, PieceType.BLACK_KING)).isEqualTo(1),
-                () -> assertThat(countPiece(pieces, PieceType.WHITE_QUEEN)).isEqualTo(1),
-                () -> assertThat(countPiece(pieces, PieceType.BLACK_QUEEN)).isEqualTo(1)
+                () -> assertThat(countPiece(pieces, PieceType.PAWN, PieceColor.WHITE)).isEqualTo(8),
+                () -> assertThat(countPiece(pieces, PieceType.PAWN, PieceColor.BLACK)).isEqualTo(8),
+                () -> assertThat(countPiece(pieces, PieceType.ROOK, PieceColor.WHITE)).isEqualTo(2),
+                () -> assertThat(countPiece(pieces, PieceType.ROOK, PieceColor.BLACK)).isEqualTo(2),
+                () -> assertThat(countPiece(pieces, PieceType.KNIGHT, PieceColor.WHITE)).isEqualTo(2),
+                () -> assertThat(countPiece(pieces, PieceType.KNIGHT, PieceColor.BLACK)).isEqualTo(2),
+                () -> assertThat(countPiece(pieces, PieceType.BISHOP, PieceColor.WHITE)).isEqualTo(2),
+                () -> assertThat(countPiece(pieces, PieceType.BISHOP, PieceColor.BLACK)).isEqualTo(2),
+                () -> assertThat(countPiece(pieces, PieceType.KING, PieceColor.WHITE)).isEqualTo(1),
+                () -> assertThat(countPiece(pieces, PieceType.KING, PieceColor.BLACK)).isEqualTo(1),
+                () -> assertThat(countPiece(pieces, PieceType.QUEEN, PieceColor.WHITE)).isEqualTo(1),
+                () -> assertThat(countPiece(pieces, PieceType.QUEEN, PieceColor.BLACK)).isEqualTo(1)
         );
     }
 
-    private int countPiece(Map<Position, Piece> pieces, PieceType type) {
+    private int countPiece(Map<Position, Piece> pieces, PieceType type, PieceColor color) {
         return (int) pieces.values().stream()
-                .filter(piece -> piece.isType(type))
+                .filter(piece -> piece.isType(type) && piece.isColor(color))
                 .count();
     }
 }

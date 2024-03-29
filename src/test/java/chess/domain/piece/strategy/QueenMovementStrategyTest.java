@@ -1,6 +1,7 @@
 package chess.domain.piece.strategy;
 
 import chess.domain.piece.Piece;
+import chess.domain.piece.PieceColor;
 import chess.domain.piece.PieceType;
 import chess.domain.position.Position;
 import org.junit.jupiter.api.DisplayName;
@@ -32,7 +33,7 @@ class QueenMovementStrategyTest {
     @MethodSource("canQueenMoveAllDirectionArguments")
     void canQueenMoveAllDirection(Position source, Position target) {
         // given
-        Piece queen = new Piece(PieceType.WHITE_QUEEN);
+        Piece queen = new Piece(PieceType.QUEEN, PieceColor.WHITE);
 
         // when
         boolean result = queen.isInMovableRange(source, target);

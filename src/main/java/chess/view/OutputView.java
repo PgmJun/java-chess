@@ -58,7 +58,7 @@ public class OutputView {
         for (PieceInfoDto pieceInfoDto : status.pieceInfoDtos()) {
             int rankIndex = ChessRank.maxIndex() - pieceInfoDto.rankIndex();
             int fileIndex = pieceInfoDto.fileIndex();
-            board.get(rankIndex).set(fileIndex, PieceNameMatcher.matchByType(pieceInfoDto.type()));
+            board.get(rankIndex).set(fileIndex, PieceNameMatcher.matchByType(pieceInfoDto.type(), pieceInfoDto.color()));
         }
     }
 
@@ -77,14 +77,5 @@ public class OutputView {
         gameStatusMessage.add(String.format("> 우승 진영: %s", gameResult.winnerTeam()));
 
         System.out.println(gameStatusMessage);
-    }
-
-    public void printGameResultMessage() {
-        StringJoiner gameResultMessage = new StringJoiner(System.lineSeparator());
-        gameResultMessage.add("> 체스 게임이 종료되었습니다.");
-        gameResultMessage.add("> 게임 결과 : status");
-        gameResultMessage.add("> 게임 종료 : end");
-
-        System.out.println(gameResultMessage);
     }
 }

@@ -1,6 +1,7 @@
 package chess.domain.piece.strategy;
 
 import chess.domain.piece.Piece;
+import chess.domain.piece.PieceColor;
 import chess.domain.piece.PieceType;
 import chess.domain.position.Position;
 import org.junit.jupiter.api.DisplayName;
@@ -37,7 +38,7 @@ class BishopMovementStrategyTest {
     @MethodSource("cannotBishopMoveCrossArguments")
     void cannotBishopMoveCross(Position source, Position target) {
         // given
-        Piece bishop = new Piece(PieceType.BLACK_BISHOP);
+        Piece bishop = new Piece(PieceType.BISHOP, PieceColor.BLACK);
 
         // when
         boolean result = bishop.isInMovableRange(source, target);
@@ -51,7 +52,7 @@ class BishopMovementStrategyTest {
     @MethodSource("canBishopMoveDiagonalArguments")
     void canBishopMoveDiagonal(Position source, Position target) {
         // given
-        Piece bishop = new Piece(PieceType.BLACK_BISHOP);
+        Piece bishop = new Piece(PieceType.BISHOP, PieceColor.BLACK);
 
         // when
         boolean result = bishop.isInMovableRange(source, target);

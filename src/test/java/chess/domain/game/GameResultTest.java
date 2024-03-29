@@ -1,6 +1,5 @@
 package chess.domain.game;
 
-import chess.domain.board.BoardGeneratorStub;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
 import chess.domain.piece.PieceType;
@@ -22,10 +21,10 @@ public class GameResultTest {
     @DisplayName("점수가 높은 팀이 승리한다.")
     @ParameterizedTest
     @MethodSource("calculateWinnerTeamArguments")
-    void calculateWinnerTeam(PieceType type1, PieceType type2, PieceColor expected) {
+    void calculateWinnerTeam(Piece piece1, Piece piece2, PieceColor expected) {
         Map<Position, Piece> board = new HashMap<>();
-        board.put(Position.A2, new Piece(type1));
-        board.put(Position.A3, new Piece(type2));
+        board.put(Position.A2, piece1);
+        board.put(Position.A3, piece2);
 
         GameResult gameResult = new GameResult(board);
         assertThat(gameResult.winnerTeam()).isEqualTo(expected);
@@ -33,8 +32,8 @@ public class GameResultTest {
 
     static Stream<Arguments> calculateWinnerTeamArguments() {
         return Stream.of(
-                Arguments.arguments(PieceType.BLACK_KING, PieceType.BLACK_QUEEN, PieceColor.BLACK),
-                Arguments.arguments(PieceType.WHITE_KING, PieceType.WHITE_QUEEN, PieceColor.WHITE)
+                Arguments.arguments(new Piece(PieceType.KING, PieceColor.BLACK), new Piece(PieceType.QUEEN, PieceColor.BLACK), PieceColor.BLACK),
+                Arguments.arguments(new Piece(PieceType.KING, PieceColor.WHITE), new Piece(PieceType.QUEEN, PieceColor.WHITE), PieceColor.WHITE)
         );
     }
 
@@ -42,8 +41,8 @@ public class GameResultTest {
     @Test
     void calculateScore() {
         Map<Position, Piece> board = new HashMap<>();
-        board.put(Position.A2, new Piece(PieceType.BLACK_KING));
-        board.put(Position.A3, new Piece(PieceType.BLACK_QUEEN));
+        board.put(Position.A2, new Piece(PieceType.KING, PieceColor.BLACK));
+        board.put(Position.A3, new Piece(PieceType.QUEEN, PieceColor.BLACK));
 
         GameResult gameResult = new GameResult(board);
         assertThat(gameResult.winnerTeam()).isEqualTo(PieceColor.BLACK);
@@ -55,10 +54,9 @@ public class GameResultTest {
     @Test
     void calculatePawnsOnFileScore() {
         // given
-        BoardGeneratorStub boardGenerator = new BoardGeneratorStub();
         HashMap<Position, Piece> board = new HashMap<>();
-        board.put(Position.A2, new Piece(PieceType.BLACK_PAWN));
-        board.put(Position.A3, new Piece(PieceType.BLACK_PAWN));
+        board.put(Position.A2, new Piece(PieceType.PAWN, PieceColor.BLACK));
+        board.put(Position.A3, new Piece(PieceType.PAWN, PieceColor.BLACK));
         GameResult gameResult = new GameResult(board);
 
         // when & then

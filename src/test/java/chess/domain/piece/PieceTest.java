@@ -13,20 +13,20 @@ class PieceTest {
 
     static Stream<Arguments> isSamePieceTypeArguments() {
         return Stream.of(
-                Arguments.arguments(PieceType.BLACK_PAWN, PieceType.BLACK_PAWN, true),
-                Arguments.arguments(PieceType.BLACK_KING, PieceType.BLACK_PAWN, false)
+                Arguments.arguments(PieceType.PAWN, PieceColor.BLACK, PieceType.PAWN, true),
+                Arguments.arguments(PieceType.KING, PieceColor.BLACK, PieceType.PAWN, false)
         );
     }
 
     @DisplayName("기물의 타입이 주어진 타입과 같은지 판별한다.")
     @ParameterizedTest
     @MethodSource("isSamePieceTypeArguments")
-    void isSamePieceType(PieceType pieceType1, PieceType pieceType2, boolean expected) {
+    void isSamePieceType(PieceType pieceType, PieceColor pieceColor, PieceType expectedType, boolean expected) {
         // given
-        Piece piece = new Piece(pieceType1);
+        Piece piece = new Piece(pieceType, pieceColor);
 
         // when
-        boolean result = piece.isType(pieceType2);
+        boolean result = piece.isType(expectedType);
 
         // then
         assertThat(result).isEqualTo(expected);

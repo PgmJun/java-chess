@@ -1,6 +1,7 @@
 package chess.domain.game;
 
 import chess.domain.piece.Piece;
+import chess.domain.piece.PieceColor;
 import chess.domain.piece.PieceType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,7 @@ class ScoreRuleTest {
     @Test
     void pawnDefaultScore() {
         // given
-        Piece piece = new Piece(PieceType.BLACK_PAWN);
+        Piece piece = new Piece(PieceType.PAWN, PieceColor.BLACK);
 
         // when
         double score = piece.calculateScore(ScoreRule.DEFAULT);
@@ -26,7 +27,7 @@ class ScoreRuleTest {
     @Test
     void pawnHalfScore() {
         // given
-        Piece piece = new Piece(PieceType.BLACK_PAWN);
+        Piece piece = new Piece(PieceType.PAWN, PieceColor.BLACK);
 
         // when
         double score = piece.calculateScore(ScoreRule.HALF);

@@ -1,6 +1,7 @@
 package chess.domain.piece.strategy;
 
 import chess.domain.piece.Piece;
+import chess.domain.piece.PieceColor;
 import chess.domain.piece.PieceType;
 import chess.domain.position.Position;
 import org.junit.jupiter.api.DisplayName;
@@ -37,7 +38,7 @@ class RookMovementStrategyTest {
     @MethodSource("canRookMoveCrossArguments")
     void canRookMoveDirection(Position source, Position target) {
         // given
-        Piece rook = new Piece(PieceType.BLACK_ROOK);
+        Piece rook = new Piece(PieceType.ROOK, PieceColor.BLACK);
 
         // when
         boolean result = rook.isInMovableRange(source, target);
@@ -51,7 +52,7 @@ class RookMovementStrategyTest {
     @MethodSource("cannotRookMoveDiagonalArguments")
     void cannotRookMoveDiagonal(Position source, Position target) {
         // given
-        Piece rook = new Piece(PieceType.BLACK_ROOK);
+        Piece rook = new Piece(PieceType.ROOK, PieceColor.BLACK);
 
         // when
         boolean result = rook.isInMovableRange(source, target);

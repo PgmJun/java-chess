@@ -1,37 +1,40 @@
 package chess.view.matcher;
 
+import chess.domain.piece.PieceColor;
 import chess.domain.piece.PieceType;
 
 import java.util.Arrays;
 
 public enum PieceNameMatcher {
-    WHITE_PAWN(PieceType.WHITE_PAWN, "p"),
-    BLACK_PAWN(PieceType.BLACK_PAWN, "P"),
-    WHITE_ROOK(PieceType.WHITE_ROOK, "r"),
-    BLACK_ROOK(PieceType.BLACK_ROOK, "R"),
-    WHITE_KNIGHT(PieceType.WHITE_KNIGHT, "n"),
-    BLACK_KNIGHT(PieceType.BLACK_KNIGHT, "N"),
-    WHITE_BISHOP(PieceType.WHITE_BISHOP, "b"),
-    BLACK_BISHOP(PieceType.BLACK_BISHOP, "B"),
-    WHITE_KING(PieceType.WHITE_KING, "k"),
-    BLACK_KING(PieceType.BLACK_KING, "K"),
-    WHITE_QUEEN(PieceType.WHITE_QUEEN, "q"),
-    BLACK_QUEEN(PieceType.BLACK_QUEEN, "Q"),
+    WHITE_PAWN(PieceType.PAWN, PieceColor.WHITE, "p"),
+    BLACK_PAWN(PieceType.PAWN, PieceColor.BLACK, "P"),
+    WHITE_ROOK(PieceType.ROOK, PieceColor.WHITE, "r"),
+    BLACK_ROOK(PieceType.ROOK, PieceColor.BLACK, "R"),
+    WHITE_KNIGHT(PieceType.KNIGHT, PieceColor.WHITE, "n"),
+    BLACK_KNIGHT(PieceType.KNIGHT, PieceColor.BLACK, "N"),
+    WHITE_BISHOP(PieceType.BISHOP, PieceColor.WHITE, "b"),
+    BLACK_BISHOP(PieceType.BISHOP, PieceColor.BLACK, "B"),
+    WHITE_KING(PieceType.KING, PieceColor.WHITE, "k"),
+    BLACK_KING(PieceType.KING, PieceColor.BLACK, "K"),
+    WHITE_QUEEN(PieceType.QUEEN, PieceColor.WHITE, "q"),
+    BLACK_QUEEN(PieceType.QUEEN, PieceColor.BLACK, "Q"),
     ;
 
     private final PieceType type;
+    private final PieceColor color;
     private final String name;
 
-    PieceNameMatcher(PieceType type, String name) {
+    PieceNameMatcher(PieceType type, PieceColor color, String name) {
         this.type = type;
+        this.color = color;
         this.name = name;
     }
 
-    public static String matchByType(PieceType type) {
+    public static String matchByType(PieceType type, PieceColor color) {
         return Arrays.stream(values())
-                .filter(typeName -> typeName.type == type)
+                .filter(nameMatcher -> nameMatcher.type == type && nameMatcher.color == color)
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 PieceType 입니다."))
+                .orElseThrow(() -> new IllegalArgumentException("매칭되는 이름이 존재하지 않습니다."))
                 .name;
     }
 

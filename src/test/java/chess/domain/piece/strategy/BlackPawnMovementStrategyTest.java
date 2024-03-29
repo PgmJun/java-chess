@@ -1,6 +1,7 @@
 package chess.domain.piece.strategy;
 
 import chess.domain.piece.Piece;
+import chess.domain.piece.PieceColor;
 import chess.domain.piece.PieceType;
 import chess.domain.position.Position;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +15,7 @@ class BlackPawnMovementStrategyTest {
     @Test
     void canBlackPawnMoveOneStep() {
         // given
-        Piece pawn = new Piece(PieceType.BLACK_PAWN);
+        Piece pawn = new Piece(PieceType.PAWN, PieceColor.BLACK);
         Position source = Position.A6;
         Position target = Position.A5;
 
@@ -29,7 +30,7 @@ class BlackPawnMovementStrategyTest {
     @Test
     void canBlackPawnMoveTwoStep() {
         // given
-        Piece pawn = new Piece(PieceType.BLACK_PAWN);
+        Piece pawn = new Piece(PieceType.PAWN, PieceColor.BLACK);
         Position source = Position.A7;
         Position target = Position.A5;
 
@@ -44,7 +45,7 @@ class BlackPawnMovementStrategyTest {
     @Test
     void cannotBlackPawnMoveTwoStep() {
         // given
-        Piece pawn = new Piece(PieceType.BLACK_PAWN);
+        Piece pawn = new Piece(PieceType.PAWN, PieceColor.BLACK);
         Position source = Position.A6;
         Position target = Position.A4;
 
@@ -59,7 +60,7 @@ class BlackPawnMovementStrategyTest {
     @Test
     void canBlackPawnMoveDiagonalOneStep() {
         // given
-        Piece pawn = new Piece(PieceType.BLACK_PAWN);
+        Piece pawn = new Piece(PieceType.PAWN, PieceColor.BLACK);
         Position source = Position.B7;
         Position target = Position.A6;
 
@@ -74,7 +75,7 @@ class BlackPawnMovementStrategyTest {
     @Test
     void cannotBlackPawnMoveDiagonalTwoStep() {
         // given
-        Piece pawn = new Piece(PieceType.BLACK_PAWN);
+        Piece pawn = new Piece(PieceType.PAWN, PieceColor.BLACK);
         Position source = Position.A7;
         Position target = Position.C5;
 

@@ -1,6 +1,7 @@
 package chess.domain.piece.strategy;
 
 import chess.domain.piece.Piece;
+import chess.domain.piece.PieceColor;
 import chess.domain.piece.PieceType;
 import chess.domain.position.Position;
 import org.junit.jupiter.api.DisplayName;
@@ -45,7 +46,7 @@ class KingMovementStrategyTest {
     @MethodSource("canKingMoveAllDirectionOneStepArguments")
     void canKingMoveAllDirectionOneStep(Position source, Position target) {
         // given
-        Piece king = new Piece(PieceType.BLACK_KING);
+        Piece king = new Piece(PieceType.KING, PieceColor.BLACK);
 
         // when
         boolean result = king.isInMovableRange(source, target);
@@ -59,7 +60,7 @@ class KingMovementStrategyTest {
     @MethodSource("cannotKingMoveAllDirectionMoreThanTwoStepArguments")
     void cannotKingMoveAllDirectionMoreThanTwoStep(Position source, Position target) {
         // given
-        Piece king = new Piece(PieceType.BLACK_KING);
+        Piece king = new Piece(PieceType.KING, PieceColor.BLACK);
 
         // when
         boolean result = king.isInMovableRange(source, target);

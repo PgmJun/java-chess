@@ -3,6 +3,7 @@ package chess.domain.game;
 import chess.domain.board.BoardGeneratorStub;
 import chess.domain.board.ChessBoard;
 import chess.domain.piece.Piece;
+import chess.domain.piece.PieceColor;
 import chess.domain.piece.PieceType;
 import chess.domain.position.Position;
 import org.junit.jupiter.api.DisplayName;
@@ -22,8 +23,8 @@ class ChessGameTest {
         // given
         BoardGeneratorStub generatorStub = new BoardGeneratorStub();
         HashMap<Position, Piece> board = new HashMap<>();
-        board.put(Position.B2, new Piece(PieceType.WHITE_PAWN));
-        board.put(Position.A1, new Piece(PieceType.WHITE_ROOK));
+        board.put(Position.B2, new Piece(PieceType.PAWN, PieceColor.WHITE));
+        board.put(Position.A1, new Piece(PieceType.ROOK, PieceColor.WHITE));
         generatorStub.setBoard(board);
 
         ChessGame game = new ChessGame(new ChessBoard(generatorStub), Turn.firstTurn());
@@ -43,8 +44,8 @@ class ChessGameTest {
         // given
         BoardGeneratorStub generatorStub = new BoardGeneratorStub();
         HashMap<Position, Piece> board = new HashMap<>();
-        board.put(Position.B2, new Piece(PieceType.WHITE_PAWN));
-        board.put(Position.A1, new Piece(PieceType.WHITE_KING));
+        board.put(Position.B2, new Piece(PieceType.PAWN, PieceColor.WHITE));
+        board.put(Position.A1, new Piece(PieceType.KING, PieceColor.WHITE));
         generatorStub.setBoard(board);
 
         ChessGame game = new ChessGame(new ChessBoard(generatorStub), Turn.firstTurn());
