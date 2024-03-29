@@ -24,13 +24,15 @@ public class OutputView {
     }
 
     public void printGameStartMessage() {
-        StringJoiner startMessageJoiner = new StringJoiner(System.lineSeparator());
-        startMessageJoiner.add("> 체스 게임을 시작합니다.");
-        startMessageJoiner.add("> 게임 시작 : start");
-        startMessageJoiner.add("> 게임 종료 : end");
-        startMessageJoiner.add("> 게임 이동 : move source위치 target위치 - 예. move b2 b3");
+        System.out.println("> 체스 게임을 시작합니다.");
+    }
 
-        System.out.println(startMessageJoiner);
+    public void printCommandInfoMessage() {
+        StringJoiner readCommandMessageJoiner = new StringJoiner(System.lineSeparator());
+        readCommandMessageJoiner.add("> 게임 시작 : start");
+        readCommandMessageJoiner.add("> 게임 종료 : end");
+        readCommandMessageJoiner.add("> 게임 이동 : move source위치 target위치 - 예. move b2 b3");
+        System.out.println(readCommandMessageJoiner);
     }
 
     public void printChessBoard(final BoardStatusDto status) {

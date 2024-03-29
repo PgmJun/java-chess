@@ -2,16 +2,16 @@ package chess.controller;
 
 import chess.controller.command.GameCommand;
 import chess.controller.command.InitCommand;
-import chess.domain.board.ChessBoard;
-import chess.domain.board.ChessBoardGenerator;
 import chess.domain.game.ChessGame;
-import chess.domain.game.Turn;
 import chess.domain.position.Position;
 import chess.dto.CommandInfoDto;
+import chess.repository.game.GameDAO;
+import chess.repository.piece.PieceDAO;
+import chess.service.GameService;
 import chess.view.InputView;
 import chess.view.OutputView;
 
-;
+import java.util.List;
 
 public class ChessController {
     private final InputView inputView;
@@ -26,9 +26,23 @@ public class ChessController {
 
     public void start() {
         outputView.printGameStartMessage();
-        ChessGame game = new ChessGame(new ChessBoard(ChessBoardGenerator.getInstance()), Turn.firstTurn());
+        ChessGame game = selectGame();
+
+        outputView.printCommandInfoMessage();
         play(game);
         printGameResult(game);
+    }
+
+    private ChessGame selectGame() {
+        GameService gameService = new GameService(new GameDAO(), new PieceDAO());
+        List<String> gameCommand = inputView.readGameCommand();
+        if (gameCommand.get(1).equals("new")) {
+            return gameService.createGame();
+        }
+        if (gameCommand.get(1).equals("continue")) {
+            return gameService.loadGame();
+        }
+        throw new IllegalArgumentException("존재하지 않는 명령어입니다.");
     }
 
     public void play(final ChessGame chessGame) {

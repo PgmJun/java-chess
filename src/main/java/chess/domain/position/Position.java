@@ -102,6 +102,14 @@ public enum Position {
         return rank.index();
     }
 
+    public ChessFile file() {
+        return file;
+    }
+
+    public ChessRank rank() {
+        return rank;
+    }
+
     @Override
     public String toString() {
         return "Position{" +

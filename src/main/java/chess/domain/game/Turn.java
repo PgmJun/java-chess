@@ -20,4 +20,8 @@ public class Turn {
     public boolean isTurn(final PieceColor color) {
         return this.color == color;
     }
+
+    public PieceColor now() {
+        return color;
+    }
 }

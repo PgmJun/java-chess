@@ -5,11 +5,19 @@ import chess.domain.piece.strategy.MovementStrategy;
 import chess.domain.position.Position;
 
 public class Piece {
+    private Long id;
     private final PieceType type;
     private final PieceColor color;
     private final PieceRule rule;
 
     public Piece(final PieceType type, final PieceColor color) {
+        this.type = type;
+        this.color = color;
+        this.rule = PieceRule.findRule(type, color);
+    }
+
+    public Piece(final Long id, final PieceType type, final PieceColor color) {
+        this.id = id;
         this.type = type;
         this.color = color;
         this.rule = PieceRule.findRule(type, color);

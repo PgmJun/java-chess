@@ -6,10 +6,17 @@ import chess.domain.position.Position;
 import chess.dto.BoardStatusDto;
 
 public class ChessGame {
+    private Long id;
     private final ChessBoard board;
     private final Turn turn;
 
     public ChessGame(ChessBoard board, Turn turn) {
+        this.board = board;
+        this.turn = turn;
+    }
+
+    public ChessGame(Long id, ChessBoard board, Turn turn) {
+        this.id = id;
         this.board = board;
         this.turn = turn;
     }
