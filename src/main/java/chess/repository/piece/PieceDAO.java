@@ -4,7 +4,6 @@ import chess.domain.piece.PieceColor;
 import chess.domain.piece.PieceType;
 import chess.domain.position.ChessFile;
 import chess.domain.position.ChessRank;
-import chess.infra.DBConnectionPool;
 import chess.infra.entity.PieceEntity;
 
 import java.sql.Connection;
@@ -18,8 +17,7 @@ import java.util.List;
 public class PieceDAO implements PieceRepository {
 
     @Override
-    public List<PieceEntity> findByGameId(final Long gameId) {
-        Connection conn = DBConnectionPool.getConnection();
+    public List<PieceEntity> findByGameId(Connection conn, final Long gameId) {
         try {
             PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM piece WHERE piece.game_id = ?");
             pstmt.setString(1, gameId.toString());
@@ -39,14 +37,11 @@ public class PieceDAO implements PieceRepository {
             return results;
         } catch (final SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            DBConnectionPool.releaseConnection(conn);
         }
     }
 
     @Override
-    public Long add(PieceEntity pieceEntity) throws SQLException {
-        Connection conn = DBConnectionPool.getConnection();
+    public Long add(Connection conn, PieceEntity pieceEntity) throws SQLException {
         try {
             conn.setAutoCommit(false);
             PreparedStatement pstmt = conn.prepareStatement(
@@ -62,19 +57,15 @@ public class PieceDAO implements PieceRepository {
             ResultSet generatedKeys = pstmt.getGeneratedKeys();
             generatedKeys.next();
 
-            conn.commit();
             return generatedKeys.getLong(1);
         } catch (final SQLException e) {
             conn.rollback();
             throw new RuntimeException(e);
-        } finally {
-            DBConnectionPool.releaseConnection(conn);
         }
     }
 
     @Override
-    public void updatePositionById(Long pieceId, ChessFile file, ChessRank rank) throws SQLException {
-        Connection conn = DBConnectionPool.getConnection();
+    public void updatePositionById(Connection conn, Long pieceId, ChessFile file, ChessRank rank) throws SQLException {
         try {
             conn.setAutoCommit(false);
             PreparedStatement pstmt = conn.prepareStatement("UPDATE piece SET piece.file = ?, piece.rank = ? WHERE piece.piece_id = ?");
@@ -83,12 +74,22 @@ public class PieceDAO implements PieceRepository {
             pstmt.setLong(3, pieceId);
             pstmt.executeUpdate();
 
-            conn.commit();
         } catch (final SQLException e) {
             conn.rollback();
             throw new RuntimeException(e);
-        } finally {
-            DBConnectionPool.releaseConnection(conn);
+        }
+    }
+
+    @Override
+    public void deleteAll(Connection conn) throws SQLException {
+        try {
+            conn.setAutoCommit(false);
+            PreparedStatement pstmt = conn.prepareStatement("DELETE FROM piece");
+            pstmt.executeUpdate();
+
+        } catch (final SQLException e) {
+            conn.rollback();
+            throw new RuntimeException(e);
         }
     }
 }

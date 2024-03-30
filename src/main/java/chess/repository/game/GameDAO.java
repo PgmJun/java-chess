@@ -2,7 +2,6 @@ package chess.repository.game;
 
 import chess.domain.game.Turn;
 import chess.domain.piece.PieceColor;
-import chess.infra.DBConnectionPool;
 import chess.infra.entity.GameEntity;
 
 import java.sql.Connection;
@@ -17,8 +16,7 @@ import java.util.Optional;
 public class GameDAO implements GameRepository {
 
     @Override
-    public List<GameEntity> findAll() {
-        Connection conn = DBConnectionPool.getConnection();
+    public List<GameEntity> findAll(Connection conn) {
         try {
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM game");
 
@@ -36,14 +34,11 @@ public class GameDAO implements GameRepository {
             return results;
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            DBConnectionPool.releaseConnection(conn);
         }
     }
 
     @Override
-    public Optional<GameEntity> findById(Long id) {
-        Connection conn = DBConnectionPool.getConnection();
+    public Optional<GameEntity> findById(Connection conn, Long id) {
         try {
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM game");
 
@@ -61,14 +56,11 @@ public class GameDAO implements GameRepository {
             return result;
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            DBConnectionPool.releaseConnection(conn);
         }
     }
 
     @Override
-    public Long add(GameEntity game) throws SQLException {
-        Connection conn = DBConnectionPool.getConnection();
+    public Long add(Connection conn, GameEntity game) throws SQLException {
         try {
             conn.setAutoCommit(false);
             PreparedStatement preparedStatement = conn.prepareStatement(
@@ -82,19 +74,15 @@ public class GameDAO implements GameRepository {
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
             generatedKeys.next();
 
-            conn.commit();
             return generatedKeys.getLong(1);
         } catch (SQLException e) {
             conn.rollback();
             throw new RuntimeException(e);
-        } finally {
-            DBConnectionPool.releaseConnection(conn);
         }
     }
 
     @Override
-    public Optional<GameEntity> findLastGame() {
-        Connection conn = DBConnectionPool.getConnection();
+    public Optional<GameEntity> findLastGame(Connection conn) {
         try {
             PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM game ORDER BY game.game_id DESC LIMIT 1");
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -111,14 +99,11 @@ public class GameDAO implements GameRepository {
             return result;
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            DBConnectionPool.releaseConnection(conn);
         }
     }
 
     @Override
-    public void updateTurnById(Long gameId, PieceColor now) throws SQLException {
-        Connection conn = DBConnectionPool.getConnection();
+    public void updateTurnById(Connection conn, Long gameId, PieceColor now) throws SQLException {
         try {
             conn.setAutoCommit(false);
             PreparedStatement pstmt = conn.prepareStatement("UPDATE game SET game.turn = ? WHERE game.game_id = ?");
@@ -126,12 +111,22 @@ public class GameDAO implements GameRepository {
             pstmt.setLong(2, gameId);
             pstmt.executeUpdate();
 
-            conn.commit();
         } catch (SQLException e) {
             conn.rollback();
             throw new RuntimeException(e);
-        } finally {
-            DBConnectionPool.releaseConnection(conn);
+        }
+    }
+
+    @Override
+    public void deleteAll(Connection conn) throws SQLException {
+        try {
+            conn.setAutoCommit(false);
+            PreparedStatement pstmt = conn.prepareStatement("DELETE FROM game");
+            pstmt.executeUpdate();
+
+        } catch (final SQLException e) {
+            conn.rollback();
+            throw new RuntimeException(e);
         }
     }
 }

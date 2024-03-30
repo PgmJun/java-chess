@@ -37,7 +37,7 @@ public class ChessController {
     private ChessGame selectGame() throws SQLException {
         GameOption gameOption = inputView.readGameOption();
         if (gameOption == GameOption.NEW) {
-            return gameService.createGame();
+            return gameService.createNewGame();
         }
         if (gameOption == GameOption.CONTINUE) {
             return gameService.loadGame();
