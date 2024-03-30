@@ -11,16 +11,24 @@ public class Piece {
     private final PieceRule rule;
 
     public Piece(final PieceType type, final PieceColor color) {
-        this.type = type;
-        this.color = color;
-        this.rule = PieceRule.findRule(type, color);
+        this(type, color, PieceRule.findRule(type, color));
     }
 
     public Piece(final Long id, final PieceType type, final PieceColor color) {
+        this(id, type, color, PieceRule.findRule(type, color));
+    }
+
+    public Piece(final PieceType type, final PieceColor color, final PieceRule rule) {
+        this.type = type;
+        this.color = color;
+        this.rule = rule;
+    }
+
+    public Piece(final Long id, final PieceType type, final PieceColor color, final PieceRule rule) {
         this.id = id;
         this.type = type;
         this.color = color;
-        this.rule = PieceRule.findRule(type, color);
+        this.rule = rule;
     }
 
     public boolean isInMovableRange(final Position source, final Position target) {

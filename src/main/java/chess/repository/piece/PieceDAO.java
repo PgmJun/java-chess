@@ -4,8 +4,8 @@ import chess.domain.piece.PieceColor;
 import chess.domain.piece.PieceType;
 import chess.domain.position.ChessFile;
 import chess.domain.position.ChessRank;
-import chess.entity.PieceEntity;
-import chess.infa.DBConnectionPool;
+import chess.infra.DBConnectionPool;
+import chess.infra.entity.PieceEntity;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

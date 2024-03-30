@@ -7,8 +7,8 @@ import chess.domain.game.Turn;
 import chess.domain.piece.Piece;
 import chess.domain.position.Position;
 import chess.dto.GameInfoDto;
-import chess.entity.GameEntity;
-import chess.entity.PieceEntity;
+import chess.infra.entity.GameEntity;
+import chess.infra.entity.PieceEntity;
 import chess.repository.game.GameRepository;
 import chess.repository.piece.PieceRepository;
 

@@ -1,7 +1,7 @@
 package chess.repository.game;
 
 import chess.domain.piece.PieceColor;
-import chess.entity.GameEntity;
+import chess.infra.entity.GameEntity;
 
 import java.sql.SQLException;
 import java.util.List;

@@ -1,4 +1,4 @@
-package chess.infa;
+package chess.infra;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,7 +13,6 @@ public class DBConnectionPool {
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String USERNAME = "chess"; //  MySQL 서버 아이디
     private static final String PASSWORD = "chess"; // MySQL 서버 비밀번호
-
     private static final int MAX_CONNECTION_SIZE = 3;
 
     private static final Deque<Connection> CONNECTION_POOL;

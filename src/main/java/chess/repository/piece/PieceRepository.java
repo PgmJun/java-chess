@@ -2,7 +2,7 @@ package chess.repository.piece;
 
 import chess.domain.position.ChessFile;
 import chess.domain.position.ChessRank;
-import chess.entity.PieceEntity;
+import chess.infra.entity.PieceEntity;
 
 import java.sql.SQLException;
 import java.util.List;
