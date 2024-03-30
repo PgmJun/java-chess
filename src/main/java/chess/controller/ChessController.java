@@ -6,10 +6,11 @@ import chess.domain.game.ChessGame;
 import chess.domain.position.Position;
 import chess.dto.CommandInfoDto;
 import chess.service.GameService;
+import chess.view.GameOption;
 import chess.view.InputView;
 import chess.view.OutputView;
 
-import java.util.List;
+import java.sql.SQLException;
 
 public class ChessController {
     private final InputView inputView;
@@ -24,7 +25,7 @@ public class ChessController {
         this.gameCommand = new InitCommand();
     }
 
-    public void start() {
+    public void start() throws SQLException {
         outputView.printGameStartMessage();
         ChessGame game = selectGame();
 
@@ -33,7 +34,7 @@ public class ChessController {
         printGameResult(game);
     }
 
-    private ChessGame selectGame() {
+    private ChessGame selectGame() throws SQLException {
         GameOption gameOption = inputView.readGameOption();
         if (gameOption == GameOption.NEW) {
             return gameService.createGame();
@@ -44,7 +45,7 @@ public class ChessController {
         throw new IllegalArgumentException("존재하지 않는 명령어입니다.");
     }
 
-    public void play(final ChessGame chessGame) {
+    public void play(final ChessGame chessGame) throws SQLException {
         if (!gameCommand.isEnd() && !chessGame.isGameEnd()) {
             CommandInfoDto commandInfoDto = inputView.readCommand();
 
@@ -62,10 +63,10 @@ public class ChessController {
         outputView.printGameStatus(chessGame.result());
     }
 
-    public void move(final ChessGame chessGame, final Position source, final Position target) {
+    public void move(final ChessGame chessGame, final Position source, final Position target) throws SQLException {
         Long pieceId = chessGame.findPieceIdAtPosition(source);
         chessGame.move(source, target);
-        
+
         gameService.updateGame(chessGame.id(), chessGame.turn(), pieceId, target);
     }
 }

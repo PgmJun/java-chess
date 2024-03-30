@@ -12,6 +12,7 @@ import chess.entity.PieceEntity;
 import chess.repository.game.GameRepository;
 import chess.repository.piece.PieceRepository;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,26 +27,8 @@ public class GameService {
         this.pieceRepository = pieceRepository;
     }
 
-    public ChessGame findGameById(final Long gameId) {
-        List<PieceEntity> pieceEntities = pieceRepository.findByGameId(gameId);
-        GameEntity gameEntity = gameRepository.findById(gameId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 gameId 입니다."));
 
-        ChessBoard chessBoard = createBoardByPieceEntities(pieceEntities);
-        return new ChessGame(chessBoard, gameEntity.getTurn());
-    }
-
-    public List<GameInfoDto> findAllGameInfo() {
-        List<GameEntity> gameEntities = gameRepository.findAll();
-
-        List<GameInfoDto> gameInfos = new ArrayList<>();
-        for (GameEntity gameEntity : gameEntities) {
-            gameInfos.add(new GameInfoDto(gameEntity.getId(), gameEntity.getGameName()));
-        }
-        return gameInfos;
-    }
-
-    public ChessGame createGame() {
+    public ChessGame createGame() throws SQLException {
         Turn turn = Turn.firstTurn();
         Long gameId = gameRepository.add(new GameEntity("gameName", turn));
 
@@ -91,8 +74,27 @@ public class GameService {
         return chessBoard;
     }
 
-    public void updateGame(final Long gameId, final Turn turn, final Long pieceId, final Position target) {
+    public void updateGame(final Long gameId, final Turn turn, final Long pieceId, final Position target) throws SQLException {
         gameRepository.updateTurnById(gameId, turn.now());
         pieceRepository.updatePositionById(pieceId, target.file(), target.rank());
+    }
+
+    public ChessGame findGameById(final Long gameId) {
+        List<PieceEntity> pieceEntities = pieceRepository.findByGameId(gameId);
+        GameEntity gameEntity = gameRepository.findById(gameId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 gameId 입니다."));
+
+        ChessBoard chessBoard = createBoardByPieceEntities(pieceEntities);
+        return new ChessGame(chessBoard, gameEntity.getTurn());
+    }
+
+    public List<GameInfoDto> findAllGameInfo() {
+        List<GameEntity> gameEntities = gameRepository.findAll();
+
+        List<GameInfoDto> gameInfos = new ArrayList<>();
+        for (GameEntity gameEntity : gameEntities) {
+            gameInfos.add(new GameInfoDto(gameEntity.getId(), gameEntity.getGameName()));
+        }
+        return gameInfos;
     }
 }

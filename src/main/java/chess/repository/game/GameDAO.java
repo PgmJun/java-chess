@@ -67,9 +67,10 @@ public class GameDAO implements GameRepository {
     }
 
     @Override
-    public Long add(GameEntity game) {
+    public Long add(GameEntity game) throws SQLException {
         Connection conn = DBConnectionPool.getConnection();
         try {
+            conn.setAutoCommit(false);
             PreparedStatement preparedStatement = conn.prepareStatement(
                     "INSERT INTO game (name, turn) VALUES(?, ?)",
                     Statement.RETURN_GENERATED_KEYS
@@ -80,8 +81,11 @@ public class GameDAO implements GameRepository {
 
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
             generatedKeys.next();
+
+            conn.commit();
             return generatedKeys.getLong(1);
         } catch (SQLException e) {
+            conn.rollback();
             throw new RuntimeException(e);
         } finally {
             DBConnectionPool.releaseConnection(conn);
@@ -103,6 +107,7 @@ public class GameDAO implements GameRepository {
                 Turn turn = new Turn(PieceColor.valueOf(turnColor));
                 result = Optional.of(new GameEntity(gameId, name, turn));
             }
+
             return result;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -112,15 +117,18 @@ public class GameDAO implements GameRepository {
     }
 
     @Override
-    public void updateTurnById(Long gameId, PieceColor now) {
+    public void updateTurnById(Long gameId, PieceColor now) throws SQLException {
         Connection conn = DBConnectionPool.getConnection();
         try {
+            conn.setAutoCommit(false);
             PreparedStatement pstmt = conn.prepareStatement("UPDATE game SET game.turn = ? WHERE game.game_id = ?");
             pstmt.setString(1, now.name());
             pstmt.setLong(2, gameId);
             pstmt.executeUpdate();
 
+            conn.commit();
         } catch (SQLException e) {
+            conn.rollback();
             throw new RuntimeException(e);
         } finally {
             DBConnectionPool.releaseConnection(conn);

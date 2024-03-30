@@ -19,9 +19,9 @@ public class PieceDAO implements PieceRepository {
 
     @Override
     public List<PieceEntity> findByGameId(final Long gameId) {
-        Connection connection = DBConnectionPool.getConnection();
+        Connection conn = DBConnectionPool.getConnection();
         try {
-            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM piece WHERE piece.game_id = ?");
+            PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM piece WHERE piece.game_id = ?");
             pstmt.setString(1, gameId.toString());
             ResultSet resultSet = pstmt.executeQuery();
 
@@ -40,15 +40,16 @@ public class PieceDAO implements PieceRepository {
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            DBConnectionPool.releaseConnection(connection);
+            DBConnectionPool.releaseConnection(conn);
         }
     }
 
     @Override
-    public Long add(PieceEntity pieceEntity) {
-        Connection connection = DBConnectionPool.getConnection();
+    public Long add(PieceEntity pieceEntity) throws SQLException {
+        Connection conn = DBConnectionPool.getConnection();
         try {
-            PreparedStatement pstmt = connection.prepareStatement(
+            conn.setAutoCommit(false);
+            PreparedStatement pstmt = conn.prepareStatement(
                     "INSERT INTO piece (`game_id`, `type`, `color`, `rank`, `file`) VALUES (?, ?, ?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS);
             pstmt.setLong(1, pieceEntity.getGameId());
@@ -60,93 +61,34 @@ public class PieceDAO implements PieceRepository {
 
             ResultSet generatedKeys = pstmt.getGeneratedKeys();
             generatedKeys.next();
+
+            conn.commit();
             return generatedKeys.getLong(1);
         } catch (final SQLException e) {
+            conn.rollback();
             throw new RuntimeException(e);
         } finally {
-            DBConnectionPool.releaseConnection(connection);
+            DBConnectionPool.releaseConnection(conn);
         }
     }
 
     @Override
-    public void updatePositionById(Long pieceId, ChessFile file, ChessRank rank) {
-        Connection connection = DBConnectionPool.getConnection();
+    public void updatePositionById(Long pieceId, ChessFile file, ChessRank rank) throws SQLException {
+        Connection conn = DBConnectionPool.getConnection();
         try {
-            PreparedStatement pstmt = connection.prepareStatement("UPDATE piece SET piece.file = ?, piece.rank = ? WHERE piece.piece_id = ?");
+            conn.setAutoCommit(false);
+            PreparedStatement pstmt = conn.prepareStatement("UPDATE piece SET piece.file = ?, piece.rank = ? WHERE piece.piece_id = ?");
             pstmt.setString(1, file.name());
             pstmt.setString(2, rank.name());
             pstmt.setLong(3, pieceId);
             pstmt.executeUpdate();
 
+            conn.commit();
         } catch (final SQLException e) {
+            conn.rollback();
             throw new RuntimeException(e);
         } finally {
-            DBConnectionPool.releaseConnection(connection);
+            DBConnectionPool.releaseConnection(conn);
         }
     }
-
-//
-//    public User findUserById(final String userId) {
-//        Connection connection = DBConnectionPool.getConnection();
-//        try {
-//            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM user WHERE user_id = ?");
-//            preparedStatement.setString(1, userId);
-//
-//            ResultSet resultSet = preparedStatement.executeQuery();
-//            if (!resultSet.next()) {
-//                throw new IllegalArgumentException("존재하지 않는 userId 입니다.");
-//            }
-//            String findUserId = resultSet.getString(1);
-//            String findUserName = resultSet.getString(2);
-//
-//            return new User(findUserId, findUserName);
-//        } catch (final SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-//
-//    public List<User> findAll() {
-//        Connection connection = DBConnectionPool.getConnection();
-//        try {
-//            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM user");
-//
-//            List<User> users = new ArrayList<>();
-//            ResultSet resultSet = preparedStatement.executeQuery();
-//            while (resultSet.next()) {
-//                String findUserId = resultSet.getString(1);
-//                String findUserName = resultSet.getString(2);
-//
-//                users.add(new User(findUserId, findUserName));
-//            }
-//            return users;
-//
-//        } catch (final SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-//
-//    public void deleteUserById(final String userId) {
-//        Connection connection = DBConnectionPool.getConnection();
-//        try {
-//            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM user WHERE user_id = ?");
-//            preparedStatement.setString(1, userId);
-//
-//            preparedStatement.executeUpdate();
-//        } catch (final SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-//
-//    public void updateUserName(final String userId, final String updateName) {
-//        Connection connection = DBConnectionPool.getConnection();
-//        try {
-//            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE user SET name = ? WHERE user_id = ?");
-//            preparedStatement.setString(1, updateName);
-//            preparedStatement.setString(2, userId);
-//
-//            preparedStatement.executeUpdate();
-//        } catch (final SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
 }
