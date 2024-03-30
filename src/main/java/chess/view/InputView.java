@@ -40,19 +40,18 @@ public class InputView {
         }
     }
 
-    public List<String> readGameCommand() {
+    public GameOption readGameOption() {
         System.out.println("게임 생성 (game new)");
         System.out.println("기존 게임 이어하기 (game continue)");
         System.out.print("> ");
-
-        return Arrays.asList(scanner.nextLine().split(" "));
+        List<String> gameOption = Arrays.asList(scanner.nextLine().split(" "));
+        validateGameOption(gameOption);
+        return GameOption.findByText(gameOption.get(1));
     }
 
-    private void validateLongType(final String input) {
-        try {
-            Long.parseLong(input);
-        } catch (NumberFormatException exception) {
-            throw new IllegalArgumentException("입력 형식이 정수형이 아닙니다.");
+    private void validateGameOption(final List<String> gameCommand) {
+        if (gameCommand.size() != 2 || !gameCommand.get(0).equals("game")) {
+            throw new IllegalArgumentException("게임 명령어 입력 형식이 올바르지 않습니다.");
         }
     }
 }

@@ -34,11 +34,11 @@ public class ChessController {
     }
 
     private ChessGame selectGame() {
-        List<String> gameCommand = inputView.readGameCommand();
-        if (gameCommand.get(1).equals("new")) {
+        GameOption gameOption = inputView.readGameOption();
+        if (gameOption == GameOption.NEW) {
             return gameService.createGame();
         }
-        if (gameCommand.get(1).equals("continue")) {
+        if (gameOption == GameOption.CONTINUE) {
             return gameService.loadGame();
         }
         throw new IllegalArgumentException("존재하지 않는 명령어입니다.");
