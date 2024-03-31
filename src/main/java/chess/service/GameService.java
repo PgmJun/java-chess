@@ -124,4 +124,10 @@ public class GameService {
         DBConnectionPool.releaseConnection(conn);
         return gameInfos;
     }
+
+    public void deleteLatestGame(final Long gameId) throws SQLException {
+        Connection conn = DBConnectionPool.getConnection();
+
+        gameRepository.deleteById(conn, gameId);
+    }
 }

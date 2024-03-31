@@ -32,6 +32,9 @@ public class ChessController {
         outputView.printCommandInfoMessage();
         play(game);
         printGameResult(game);
+        if (game.isGameEnd()) {
+            gameService.deleteLatestGame(game.id());
+        }
     }
 
     private ChessGame selectGame() throws SQLException {

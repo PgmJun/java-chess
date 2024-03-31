@@ -21,4 +21,6 @@ public interface GameRepository {
     void updateTurnById(Connection conn, Long gameId, PieceColor now) throws SQLException;
 
     void deleteAll(Connection conn) throws SQLException;
+
+    void deleteById(Connection conn, Long gameId) throws SQLException;
 }
