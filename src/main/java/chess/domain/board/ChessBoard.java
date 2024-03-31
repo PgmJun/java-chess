@@ -4,10 +4,12 @@ import chess.domain.Direction;
 import chess.domain.game.GameResult;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
+import chess.domain.position.ChessFile;
 import chess.domain.position.Position;
 import chess.dto.BoardStatusDto;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 // TODO: 책임 분리
@@ -89,19 +91,25 @@ public class ChessBoard {
             throw new IllegalArgumentException("해당 위치에 기물이 존재하지 않습니다.");
         }
         return board.get(position).color();
-
     }
 
-    public boolean isKingDead() {
-        long kingCount = board.values().stream()
-                .filter(Piece::isKing)
-                .count();
+    public List<Piece> getPiecesOfFileByColor(final ChessFile file, final PieceColor color) {
+        return board.entrySet().stream()
+                .filter(entry ->
+                        entry.getKey().isFile(file) && entry.getValue().isColor(color))
+                .map(Map.Entry::getValue)
+                .toList();
+    }
 
-        return kingCount != 2;
+    public List<PieceColor> findAliveKingsColor() {
+        return board.values().stream()
+                .filter(Piece::isKing)
+                .map(Piece::color)
+                .toList();
     }
 
     public GameResult result() {
-        return new GameResult(board);
+        return new GameResult(this);
     }
 
     public Piece getPieceOfPosition(final Position position) {

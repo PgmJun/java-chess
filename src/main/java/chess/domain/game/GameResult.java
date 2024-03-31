@@ -1,26 +1,25 @@
 package chess.domain.game;
 
+import chess.domain.board.ChessBoard;
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;
 import chess.domain.position.ChessFile;
-import chess.domain.position.Position;
 
 import java.util.List;
-import java.util.Map;
 
 public class GameResult {
-    private final Map<Position, Piece> board;
+    private final ChessBoard board;
 
-    public GameResult(Map<Position, Piece> board) {
+    public GameResult(ChessBoard board) {
         this.board = board;
     }
 
-    public PieceColor winnerTeam() {
-        // TODO: 왕이 죽으면 지는 것이 아니라, 점수로만 계산하는 거면 왕만 죽은 경우 동점인데 어떻게 처리할까
-        if (whiteScore() > blackScore()) {
-            return PieceColor.WHITE;
+    public Result winnerTeam() {
+        List<PieceColor> aliveKingsColor = board.findAliveKingsColor();
+        if (aliveKingsColor.size() == 2) {
+            return Result.DRAW;
         }
-        return PieceColor.BLACK;
+        return Result.getWinnerByColor(aliveKingsColor.get(0));
     }
 
     public double whiteScore() {
@@ -35,18 +34,11 @@ public class GameResult {
         double score = 0;
 
         for (ChessFile file : ChessFile.values()) {
-            score += calculateScore(getFilePiecesByColor(file, color));
+            score += calculateScore(board.getPiecesOfFileByColor(file, color));
         }
         return score;
     }
 
-    private List<Piece> getFilePiecesByColor(final ChessFile file, final PieceColor color) {
-        return board.entrySet().stream()
-                .filter(entry ->
-                        entry.getKey().isFile(file) && entry.getValue().isColor(color))
-                .map(Map.Entry::getValue)
-                .toList();
-    }
 
     private double calculateScore(final List<Piece> filePieces) {
         final long pawnCount = filePieces.stream()

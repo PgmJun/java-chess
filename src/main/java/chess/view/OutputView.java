@@ -76,7 +76,7 @@ public class OutputView {
         StringJoiner gameStatusMessage = new StringJoiner(System.lineSeparator());
         gameStatusMessage.add(String.format("> 검은색: %.1f", gameResult.blackScore()));
         gameStatusMessage.add(String.format("> 흰색: %.1f", gameResult.whiteScore()));
-        gameStatusMessage.add(String.format("> 우승 진영: %s", gameResult.winnerTeam()));
+        gameStatusMessage.add(String.format("> 게임 결과: %s", gameResult.winnerTeam()));
 
         System.out.println(gameStatusMessage);
     }

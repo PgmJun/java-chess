@@ -6,6 +6,8 @@ import chess.domain.piece.PieceColor;
 import chess.domain.position.Position;
 import chess.dto.BoardStatusDto;
 
+import java.util.List;
+
 public class ChessGame {
     private Long id;
     private final ChessBoard board;
@@ -32,7 +34,8 @@ public class ChessGame {
     }
 
     public boolean isGameEnd() {
-        return board.isKingDead();
+        List<PieceColor> aliveKingsColor = board.findAliveKingsColor();
+        return aliveKingsColor.size() == 1;
     }
 
     public BoardStatusDto boardState() {
