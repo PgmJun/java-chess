@@ -1,6 +1,7 @@
 package chess.view;
 
 import chess.domain.game.GameResult;
+import chess.domain.game.Winner;
 import chess.domain.position.ChessFile;
 import chess.domain.position.ChessRank;
 import chess.dto.BoardStatusDto;
@@ -76,8 +77,18 @@ public class OutputView {
         StringJoiner gameStatusMessage = new StringJoiner(System.lineSeparator());
         gameStatusMessage.add(String.format("> 검은색: %.1f", gameResult.blackScore()));
         gameStatusMessage.add(String.format("> 흰색: %.1f", gameResult.whiteScore()));
-        gameStatusMessage.add(String.format("> 게임 결과: %s", gameResult.winnerTeam()));
+        gameStatusMessage.add(String.format("> 게임 결과: %s", getGameResultText(gameResult)));
 
         System.out.println(gameStatusMessage);
+    }
+
+    private String getGameResultText(GameResult gameResult) {
+        if (gameResult.winnerTeam() == Winner.BLACK) {
+            return "검정색 승";
+        }
+        if (gameResult.winnerTeam() == Winner.WHITE) {
+            return "흰색 승";
+        }
+        return "비김";
     }
 }

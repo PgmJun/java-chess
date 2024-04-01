@@ -14,12 +14,8 @@ public class GameResult {
         this.board = board;
     }
 
-    public Result winnerTeam() {
-        List<PieceColor> aliveKingsColor = board.findAliveKingsColor();
-        if (aliveKingsColor.size() == 2) {
-            return Result.DRAW;
-        }
-        return Result.getWinnerByColor(aliveKingsColor.get(0));
+    public Winner winnerTeam() {
+        return Winner.calculateWinner(board.findAliveKingsColor());
     }
 
     public double whiteScore() {
