@@ -1,4 +1,6 @@
-package chess.infra.db;
+package chess.infra.db.transaction;
+
+import chess.infra.db.DBConnectionPool;
 
 import java.sql.Connection;
 import java.sql.SQLException;

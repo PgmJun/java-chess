@@ -11,7 +11,7 @@ import chess.entity.game.GameEntity;
 import chess.entity.game.repository.GameRepository;
 import chess.entity.piece.repository.PieceRepository;
 import chess.infra.db.DBConnectionPool;
-import chess.infra.db.TransactionManager;
+import chess.infra.db.transaction.TransactionManager;
 
 import java.sql.Connection;
 import java.sql.SQLException;
