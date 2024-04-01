@@ -8,12 +8,10 @@ import chess.view.Command;
 import chess.view.matcher.ChessFileMatcher;
 import chess.view.matcher.ChessRankMatcher;
 
-import java.sql.SQLException;
-
 public class MoveCommand implements GameCommand {
 
     @Override
-    public void execute(final ChessController chessController, final ChessGame chessGame, final CommandInfoDto commandInfo) throws SQLException {
+    public void execute(final ChessController chessController, final ChessGame chessGame, final CommandInfoDto commandInfo) {
         Position source = extractPosition(commandInfo.options().get(0));
         Position target = extractPosition(commandInfo.options().get(1));
         chessController.move(chessGame, source, target);

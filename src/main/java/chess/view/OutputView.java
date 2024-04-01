@@ -91,4 +91,8 @@ public class OutputView {
         }
         return "비김";
     }
+
+    public void printErrorMessage(String errorMessage) {
+        System.out.println(String.format("[ERROR] %s%n", errorMessage));
+    }
 }

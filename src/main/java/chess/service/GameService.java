@@ -28,21 +28,25 @@ public class GameService {
         this.pieceRepository = pieceRepository;
     }
 
-    public ChessGame createNewGame() throws SQLException {
-        return TransactionManager.cud(DBConnectionPool.getConnection(), conn -> {
-            pieceRepository.deleteAll(conn);
-            gameRepository.deleteAll(conn);
+    public ChessGame createNewGame() {
+        try {
+            return TransactionManager.cud(DBConnectionPool.getConnection(), conn -> {
+                pieceRepository.deleteAll(conn);
+                gameRepository.deleteAll(conn);
 
-            Turn turn = Turn.firstTurn();
-            Long gameId = gameRepository.add(conn, new GameEntity("gameName", turn));
+                Turn turn = Turn.firstTurn();
+                Long gameId = gameRepository.add(conn, new GameEntity("gameName", turn));
 
-            for (Map.Entry<Position, Piece> entry : ChessBoardGenerator.getInstance().generate().entrySet()) {
-                Position position = entry.getKey();
-                Piece piece = entry.getValue();
-                pieceRepository.add(conn, new PieceEntity(gameId, position, piece));
-            }
-            return findGameByIdAndTurn(conn, gameId, turn);
-        });
+                for (Map.Entry<Position, Piece> entry : ChessBoardGenerator.getInstance().generate().entrySet()) {
+                    Position position = entry.getKey();
+                    Piece piece = entry.getValue();
+                    pieceRepository.add(conn, new PieceEntity(gameId, position, piece));
+                }
+                return findGameByIdAndTurn(conn, gameId, turn);
+            });
+        } catch (Exception exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
     private ChessGame findGameByIdAndTurn(final Connection connection, final Long gameId, final Turn turn) {
@@ -82,12 +86,16 @@ public class GameService {
         return chessBoard;
     }
 
-    public void updateGame(final Long gameId, final Turn turn, final Long pieceId, final Position target) throws SQLException {
-        TransactionManager.cud(DBConnectionPool.getConnection(), conn -> {
-            gameRepository.updateTurnById(conn, gameId, turn.now());
-            pieceRepository.updatePositionById(conn, pieceId, target.file(), target.rank());
-            return null;
-        });
+    public void updateGame(final Long gameId, final Turn turn, final Long pieceId, final Position target) {
+        try {
+            TransactionManager.cud(DBConnectionPool.getConnection(), conn -> {
+                gameRepository.updateTurnById(conn, gameId, turn.now());
+                pieceRepository.updatePositionById(conn, pieceId, target.file(), target.rank());
+                return null;
+            });
+        } catch (Exception exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
     public void deleteLatestGame(final Long gameId) throws SQLException {

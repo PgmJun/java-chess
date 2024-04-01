@@ -5,12 +5,10 @@ import chess.domain.game.ChessGame;
 import chess.dto.CommandInfoDto;
 import chess.view.Command;
 
-import java.sql.SQLException;
-
 public class StatusCommand implements GameCommand {
 
     @Override
-    public void execute(ChessController chessController, ChessGame chessGame, CommandInfoDto commandInfo) throws SQLException {
+    public void execute(ChessController chessController, ChessGame chessGame, CommandInfoDto commandInfo) {
         chessController.printGameResult(chessGame);
         chessController.printBoardState(chessGame);
         chessController.play(chessGame);

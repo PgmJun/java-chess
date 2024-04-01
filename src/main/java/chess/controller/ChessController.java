@@ -11,6 +11,7 @@ import chess.view.InputView;
 import chess.view.OutputView;
 
 import java.sql.SQLException;
+import java.util.function.Supplier;
 
 public class ChessController {
     private final InputView inputView;
@@ -27,17 +28,17 @@ public class ChessController {
 
     public void start() throws SQLException {
         outputView.printGameStartMessage();
-        ChessGame game = selectGame();
+        ChessGame game = retry(this::selectGame);
 
         outputView.printCommandInfoMessage();
-        play(game);
+        retry(() -> play(game));
         printGameResult(game);
         if (game.isGameEnd()) {
             gameService.deleteLatestGame(game.id());
         }
     }
 
-    private ChessGame selectGame() throws SQLException {
+    private ChessGame selectGame() {
         GameOption gameOption = inputView.readGameOption();
         if (gameOption == GameOption.NEW) {
             return gameService.createNewGame();
@@ -48,7 +49,7 @@ public class ChessController {
         throw new IllegalArgumentException("존재하지 않는 명령어입니다.");
     }
 
-    public void play(final ChessGame chessGame) throws SQLException {
+    public void play(final ChessGame chessGame) {
         if (!gameCommand.isEnd() && !chessGame.isGameEnd()) {
             CommandInfoDto commandInfoDto = inputView.readCommand();
 
@@ -66,10 +67,28 @@ public class ChessController {
         outputView.printGameStatus(chessGame.result());
     }
 
-    public void move(final ChessGame chessGame, final Position source, final Position target) throws SQLException {
+    public void move(final ChessGame chessGame, final Position source, final Position target) {
         Long pieceId = chessGame.findPieceIdAtPosition(source);
         chessGame.move(source, target);
 
         gameService.updateGame(chessGame.id(), chessGame.turn(), pieceId, target);
+    }
+
+    private <T> T retry(Supplier<T> supplier) {
+        try {
+            return supplier.get();
+        } catch (Exception exception) {
+            outputView.printErrorMessage(exception.getMessage());
+            return retry(supplier);
+        }
+    }
+
+    private void retry(Runnable runnable) {
+        try {
+            runnable.run();
+        } catch (Exception exception) {
+            outputView.printErrorMessage(exception.getMessage());
+            retry(runnable);
+        }
     }
 }
