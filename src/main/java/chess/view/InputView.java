@@ -25,7 +25,7 @@ public class InputView {
         String[] commandText = scanner.nextLine().split(" ");
         Command command = CommandMatcher.matchByText(commandText[0]);
 
-        return CommandInfoDto.of(command, options);
+        return CommandInfoDto.of(command, commandText);
     }
 
     public GameOption readGameOption() {

@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface PieceRepository {
 
-    List<PieceEntity> findByGameId(Connection conn, final Long gameId);
+    List<PieceEntity> findByGameId(Connection conn, final Long gameId) throws SQLException;
 
     Long add(Connection conn, PieceEntity pieceEntity) throws SQLException;
 

@@ -119,29 +119,14 @@ public class GameDAO implements GameRepository {
 
     @Override
     public void deleteAll(final Connection conn) throws SQLException {
-        try {
-            conn.setAutoCommit(false);
-            PreparedStatement pstmt = conn.prepareStatement("DELETE FROM game");
-            pstmt.executeUpdate();
-
-        } catch (final SQLException e) {
-            conn.rollback();
-            throw new RuntimeException(e);
-        }
+        PreparedStatement pstmt = conn.prepareStatement("DELETE FROM game");
+        pstmt.executeUpdate();
     }
 
     @Override
     public void deleteById(final Connection conn, final Long gameId) throws SQLException {
-        try {
-            conn.setAutoCommit(false);
-            
-            PreparedStatement pstmt = conn.prepareStatement("DELETE FROM game WHERE game.game_id = ?");
-            pstmt.setLong(1, gameId);
-            pstmt.executeUpdate();
-
-        } catch (final SQLException e) {
-            conn.rollback();
-            throw new RuntimeException(e);
-        }
+        PreparedStatement pstmt = conn.prepareStatement("DELETE FROM game WHERE game.game_id = ?");
+        pstmt.setLong(1, gameId);
+        pstmt.executeUpdate();
     }
 }
