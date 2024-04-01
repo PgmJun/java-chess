@@ -1,10 +1,10 @@
-package chess.repository.piece;
+package chess.entity.piece.repository;
 
 import chess.domain.piece.PieceColor;
 import chess.domain.piece.PieceType;
 import chess.domain.position.ChessFile;
 import chess.domain.position.ChessRank;
-import chess.infra.entity.PieceEntity;
+import chess.entity.PieceEntity;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

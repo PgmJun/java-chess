@@ -1,4 +1,4 @@
-package chess.infra.entity;
+package chess.entity;
 
 import chess.domain.piece.Piece;
 import chess.domain.piece.PieceColor;

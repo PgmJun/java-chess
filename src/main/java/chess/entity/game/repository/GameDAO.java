@@ -1,8 +1,8 @@
-package chess.repository.game;
+package chess.entity.game.repository;
 
 import chess.domain.game.Turn;
 import chess.domain.piece.PieceColor;
-import chess.infra.entity.GameEntity;
+import chess.entity.game.GameEntity;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

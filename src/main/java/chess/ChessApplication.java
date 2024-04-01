@@ -1,8 +1,8 @@
 package chess;
 
 import chess.controller.ChessController;
-import chess.repository.game.GameDAO;
-import chess.repository.piece.PieceDAO;
+import chess.entity.game.repository.GameDAO;
+import chess.entity.piece.repository.PieceDAO;
 import chess.service.GameService;
 import chess.view.InputView;
 import chess.view.OutputView;

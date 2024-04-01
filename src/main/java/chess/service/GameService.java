@@ -6,11 +6,11 @@ import chess.domain.game.ChessGame;
 import chess.domain.game.Turn;
 import chess.domain.piece.Piece;
 import chess.domain.position.Position;
+import chess.entity.PieceEntity;
+import chess.entity.game.GameEntity;
+import chess.entity.game.repository.GameRepository;
+import chess.entity.piece.repository.PieceRepository;
 import chess.infra.DBConnectionPool;
-import chess.infra.entity.GameEntity;
-import chess.infra.entity.PieceEntity;
-import chess.repository.game.GameRepository;
-import chess.repository.piece.PieceRepository;
 
 import java.sql.Connection;
 import java.sql.SQLException;

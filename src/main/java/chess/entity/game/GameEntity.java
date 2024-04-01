@@ -1,4 +1,4 @@
-package chess.infra.entity;
+package chess.entity.game;
 
 import chess.domain.game.Turn;
 
