@@ -14,7 +14,6 @@ import chess.infra.db.DBConnectionPool;
 import chess.infra.db.transaction.TransactionManager;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,10 +97,14 @@ public class GameService {
         }
     }
 
-    public void deleteLatestGame(final Long gameId) throws SQLException {
-        TransactionManager.cud(DBConnectionPool.getConnection(), conn -> {
-            gameRepository.deleteById(conn, gameId);
-            return null;
-        });
+    public void deleteLatestGame(final Long gameId) {
+        try {
+            TransactionManager.cud(DBConnectionPool.getConnection(), conn -> {
+                gameRepository.deleteById(conn, gameId);
+                return null;
+            });
+        } catch (Exception exception) {
+            throw new RuntimeException(exception);
+        }
     }
 }
