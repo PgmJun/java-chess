@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// TODO: 책임 분리
 public class ChessBoard {
     private final Map<Position, Piece> board;
 

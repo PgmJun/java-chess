@@ -20,7 +20,6 @@ public class InputView {
         return INSTANCE;
     }
 
-    // TODO: 분기처리 리팩토링
     public CommandInfoDto readCommand() {
         String[] commandText = scanner.nextLine().split(" ");
         Command command = CommandMatcher.matchByText(commandText[0]);
