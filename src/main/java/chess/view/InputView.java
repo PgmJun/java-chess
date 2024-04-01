@@ -24,25 +24,13 @@ public class InputView {
     public CommandInfoDto readCommand() {
         String[] commandText = scanner.nextLine().split(" ");
         Command command = CommandMatcher.matchByText(commandText[0]);
-        if (command.isType(Command.START) || command.isType(Command.END) || command.isType(Command.STATUS)) {
-            return CommandInfoDto.noneOptions(command);
-        }
-        if (command.isType(Command.MOVE)) {
-            validatePosition(commandText[1], commandText[2]);
-            return CommandInfoDto.Options(command, List.of(commandText[1], commandText[2]));
-        }
-        throw new IllegalArgumentException("명령 입력 형식이 올바르지 않습니다.");
-    }
 
-    private void validatePosition(final String source, final String target) {
-        if (source.length() != 2 || target.length() != 2) {
-            throw new IllegalArgumentException("위치 입력 형식이 올바르지 않습니다.");
-        }
+        return CommandInfoDto.of(command, options);
     }
 
     public GameOption readGameOption() {
-        System.out.println("게임 생성 (game new)");
-        System.out.println("기존 게임 이어하기 (game continue)");
+        System.out.println("> 게임 생성 : game new");
+        System.out.println("> 기존 게임 이어하기 : game continue");
         System.out.print("> ");
         List<String> gameOption = Arrays.asList(scanner.nextLine().split(" "));
         validateGameOption(gameOption);
