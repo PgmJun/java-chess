@@ -5,12 +5,11 @@ import chess.domain.piece.PieceType;
 import chess.domain.position.ChessFile;
 import chess.domain.position.ChessRank;
 import chess.entity.PieceEntity;
+import chess.infra.db.query.QueryManager;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,9 +17,10 @@ public class PieceDAO implements PieceRepository {
 
     @Override
     public List<PieceEntity> findByGameId(Connection conn, final Long gameId) throws SQLException {
-        PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM piece WHERE piece.game_id = ?");
-        pstmt.setString(1, gameId.toString());
-        ResultSet resultSet = pstmt.executeQuery();
+        ResultSet resultSet = QueryManager.setConnection(conn)
+                .select("SELECT * FROM piece WHERE piece.game_id = ?")
+                .setString(1, gameId.toString())
+                .executeQuery();
 
         List<PieceEntity> results = new ArrayList<>();
         while (resultSet.next()) {
@@ -32,40 +32,39 @@ public class PieceDAO implements PieceRepository {
 
             results.add(new PieceEntity(id, gameId, type, color, rank, file));
         }
-
         return results;
     }
 
     @Override
     public Long add(Connection conn, PieceEntity pieceEntity) throws SQLException {
-        PreparedStatement pstmt = conn.prepareStatement(
-                "INSERT INTO piece (`game_id`, `type`, `color`, `rank`, `file`) VALUES (?, ?, ?, ?, ?)",
-                Statement.RETURN_GENERATED_KEYS);
-        pstmt.setLong(1, pieceEntity.getGameId());
-        pstmt.setString(2, pieceEntity.getType().name());
-        pstmt.setString(3, pieceEntity.getColor().name());
-        pstmt.setString(4, pieceEntity.getRank().name());
-        pstmt.setString(5, pieceEntity.getFile().name());
-        pstmt.executeUpdate();
+        ResultSet generatedKeys = QueryManager.setConnection(conn)
+                .insert("INSERT INTO piece (`game_id`, `type`, `color`, `rank`, `file`) VALUES (?, ?, ?, ?, ?)")
+                .setLong(1, pieceEntity.getGameId())
+                .setString(2, pieceEntity.getType().name())
+                .setString(3, pieceEntity.getColor().name())
+                .setString(4, pieceEntity.getRank().name())
+                .setString(5, pieceEntity.getFile().name())
+                .executeUpdate()
+                .getGeneratedKeys();
 
-        ResultSet generatedKeys = pstmt.getGeneratedKeys();
         generatedKeys.next();
-
         return generatedKeys.getLong(1);
     }
 
     @Override
     public void updatePositionById(Connection conn, Long pieceId, ChessFile file, ChessRank rank) throws SQLException {
-        PreparedStatement pstmt = conn.prepareStatement("UPDATE piece SET piece.file = ?, piece.rank = ? WHERE piece.piece_id = ?");
-        pstmt.setString(1, file.name());
-        pstmt.setString(2, rank.name());
-        pstmt.setLong(3, pieceId);
-        pstmt.executeUpdate();
+        QueryManager.setConnection(conn)
+                .update("UPDATE piece SET piece.file = ?, piece.rank = ? WHERE piece.piece_id = ?")
+                .setString(1, file.name())
+                .setString(2, rank.name())
+                .setLong(3, pieceId)
+                .executeUpdate();
     }
 
     @Override
     public void deleteAll(Connection conn) throws SQLException {
-        PreparedStatement pstmt = conn.prepareStatement("DELETE FROM piece");
-        pstmt.executeUpdate();
+        QueryManager.setConnection(conn)
+                .delete("DELETE FROM piece")
+                .executeUpdate();
     }
 }

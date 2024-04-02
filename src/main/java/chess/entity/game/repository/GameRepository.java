@@ -10,13 +10,13 @@ import java.util.Optional;
 
 public interface GameRepository {
 
-    List<GameEntity> findAll(Connection conn);
+    List<GameEntity> findAll(Connection conn) throws SQLException;
 
-    Optional<GameEntity> findById(Connection conn, Long id);
+    Optional<GameEntity> findById(Connection conn, Long id) throws SQLException;
 
     Long add(Connection conn, GameEntity gameName) throws SQLException;
 
-    Optional<GameEntity> findLastGame(Connection conn);
+    Optional<GameEntity> findLastGame(Connection conn) throws SQLException;
 
     void updateTurnById(Connection conn, Long gameId, PieceColor now) throws SQLException;
 
