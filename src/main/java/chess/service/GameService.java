@@ -34,7 +34,7 @@ public class GameService {
                 gameRepository.deleteAll(conn);
 
                 Turn turn = Turn.firstTurn();
-                Long gameId = gameRepository.add(conn, new GameEntity("gameName", turn));
+                Long gameId = gameRepository.add(conn, new GameEntity(turn));
 
                 for (Map.Entry<Position, Piece> entry : ChessBoardGenerator.getInstance().generate().entrySet()) {
                     Position position = entry.getKey();

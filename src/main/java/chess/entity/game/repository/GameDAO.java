@@ -25,10 +25,9 @@ public class GameDAO implements GameRepository {
             List<GameEntity> results = new ArrayList<>();
             while (resultSet.next()) {
                 long id = resultSet.getLong("id");
-                String name = resultSet.getString("name");
                 String turnColor = resultSet.getString("turn");
                 Turn turn = new Turn(PieceColor.valueOf(turnColor));
-                results.add(new GameEntity(id, name, turn));
+                results.add(new GameEntity(id, turn));
             }
 
             return results;
@@ -47,10 +46,9 @@ public class GameDAO implements GameRepository {
             Optional<GameEntity> result = Optional.empty();
             if (resultSet.next()) {
                 long gameId = resultSet.getLong("id");
-                String name = resultSet.getString("name");
                 String turnColor = resultSet.getString("turn");
                 Turn turn = new Turn(PieceColor.valueOf(turnColor));
-                result = Optional.of(new GameEntity(gameId, name, turn));
+                result = Optional.of(new GameEntity(gameId, turn));
             }
 
             return result;
@@ -64,11 +62,10 @@ public class GameDAO implements GameRepository {
         try {
             conn.setAutoCommit(false);
             PreparedStatement preparedStatement = conn.prepareStatement(
-                    "INSERT INTO game (name, turn) VALUES(?, ?)",
+                    "INSERT INTO game (turn) VALUES(?)",
                     Statement.RETURN_GENERATED_KEYS
             );
-            preparedStatement.setString(1, game.getGameName());
-            preparedStatement.setString(2, game.getTurn().now().name());
+            preparedStatement.setString(1, game.getTurn().now().name());
             preparedStatement.executeUpdate();
 
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
@@ -90,10 +87,9 @@ public class GameDAO implements GameRepository {
             Optional<GameEntity> result = Optional.empty();
             if (resultSet.next()) {
                 long gameId = resultSet.getLong("game_id");
-                String name = resultSet.getString("name");
                 String turnColor = resultSet.getString("turn");
                 Turn turn = new Turn(PieceColor.valueOf(turnColor));
-                result = Optional.of(new GameEntity(gameId, name, turn));
+                result = Optional.of(new GameEntity(gameId, turn));
             }
 
             return result;

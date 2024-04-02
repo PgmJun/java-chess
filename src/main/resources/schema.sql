@@ -7,7 +7,6 @@ DROP TABLE IF EXISTS `game`;
 
 CREATE TABLE `game` (
 	`game_id`	bigint AUTO_INCREMENT PRIMARY KEY,
-	`name`	varchar(20)	NOT NULL,
 	`turn`	varchar(20)	NOT NULL
 );
 
