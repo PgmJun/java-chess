@@ -60,7 +60,6 @@ public class GameDAO implements GameRepository {
     @Override
     public Long add(Connection conn, GameEntity game) throws SQLException {
         try {
-            conn.setAutoCommit(false);
             PreparedStatement preparedStatement = conn.prepareStatement(
                     "INSERT INTO game (turn) VALUES(?)",
                     Statement.RETURN_GENERATED_KEYS
@@ -73,7 +72,6 @@ public class GameDAO implements GameRepository {
 
             return generatedKeys.getLong(1);
         } catch (SQLException e) {
-            conn.rollback();
             throw new RuntimeException(e);
         }
     }
