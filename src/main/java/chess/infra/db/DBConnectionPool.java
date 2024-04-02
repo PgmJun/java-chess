@@ -20,14 +20,14 @@ public class DBConnectionPool {
         }
     }
 
-    public static Connection getConnection() {
+    synchronized public static Connection getConnection() {
         if (!CONNECTION_POOL.isEmpty()) {
             return CONNECTION_POOL.pop();
         }
         throw new RuntimeException("현재 남아있는 커넥션이 없습니다.");
     }
 
-    public static void releaseConnection(final Connection connection) {
+    synchronized public static void releaseConnection(final Connection connection) {
         CONNECTION_POOL.add(connection);
     }
 }
