@@ -7,24 +7,24 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class InsertQueryManager {
-    private String query = "";
     private Connection conn;
     private PreparedStatement pstmt;
+    private int parameterIndex;
 
     public InsertQueryManager(Connection conn, String query) throws SQLException {
         super();
         this.conn = conn;
-        this.query = query;
         this.pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        this.parameterIndex = 1;
     }
 
-    public InsertQueryManager setString(final int parameterIndex, final String value) throws SQLException {
-        this.pstmt.setString(parameterIndex, value);
+    public InsertQueryManager setString(final String value) throws SQLException {
+        this.pstmt.setString(parameterIndex++, value);
         return this;
     }
 
-    public InsertQueryManager setLong(final int parameterIndex, final Long value) throws SQLException {
-        this.pstmt.setLong(parameterIndex, value);
+    public InsertQueryManager setLong(final Long value) throws SQLException {
+        this.pstmt.setLong(parameterIndex++, value);
         return this;
     }
 

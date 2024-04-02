@@ -6,24 +6,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UpdateQueryManager {
-    private String query = "";
     private Connection conn;
     private PreparedStatement pstmt;
+    private int parameterIndex;
 
     public UpdateQueryManager(Connection conn, String query) throws SQLException {
         super();
         this.conn = conn;
-        this.query = query;
         this.pstmt = conn.prepareStatement(query);
+        this.parameterIndex = 1;
     }
 
-    public UpdateQueryManager setString(final int parameterIndex, final String value) throws SQLException {
-        this.pstmt.setString(parameterIndex, value);
+    public UpdateQueryManager setString(final String value) throws SQLException {
+        this.pstmt.setString(parameterIndex++, value);
         return this;
     }
 
-    public UpdateQueryManager setLong(final int parameterIndex, final Long value) throws SQLException {
-        this.pstmt.setLong(parameterIndex, value);
+    public UpdateQueryManager setLong(final Long value) throws SQLException {
+        this.pstmt.setLong(parameterIndex++, value);
         return this;
     }
 
