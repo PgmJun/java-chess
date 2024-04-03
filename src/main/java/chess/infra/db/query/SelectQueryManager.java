@@ -29,7 +29,7 @@ public final class SelectQueryManager extends CrudQueryManager {
         return this;
     }
 
-    public ResultSet executeQuery() throws SQLException {
-        return pstmt.executeQuery();
+    public ResultSet execute() throws SQLException {
+        return super.executeQuery();
     }
 }

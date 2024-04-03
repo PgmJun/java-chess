@@ -20,7 +20,7 @@ public class PieceDAO implements PieceRepository {
         ResultSet resultSet = QueryManager.setConnection(conn)
                 .select("SELECT * FROM piece WHERE piece.game_id = ?")
                 .setString(1, gameId.toString())
-                .executeQuery();
+                .execute();
 
         List<PieceEntity> results = new ArrayList<>();
         while (resultSet.next()) {
@@ -44,7 +44,7 @@ public class PieceDAO implements PieceRepository {
                 .setString(3, pieceEntity.getColor().name())
                 .setString(4, pieceEntity.getRank().name())
                 .setString(5, pieceEntity.getFile().name())
-                .executeUpdate()
+                .execute()
                 .getGeneratedKeys();
 
         generatedKeys.next();
@@ -58,13 +58,13 @@ public class PieceDAO implements PieceRepository {
                 .setString(1, file.name())
                 .setString(2, rank.name())
                 .setLong(3, pieceId)
-                .executeUpdate();
+                .execute();
     }
 
     @Override
     public void deleteAll(Connection conn) throws SQLException {
         QueryManager.setConnection(conn)
                 .delete("DELETE FROM piece")
-                .executeUpdate();
+                .execute();
     }
 }

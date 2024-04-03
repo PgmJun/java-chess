@@ -28,8 +28,7 @@ public final class UpdateQueryManager extends CrudQueryManager {
         return this;
     }
 
-    public UpdateQueryManager executeUpdate() throws SQLException {
-        pstmt.executeUpdate();
-        return this;
+    public void execute() throws SQLException {
+        super.executeUpdate();
     }
 }

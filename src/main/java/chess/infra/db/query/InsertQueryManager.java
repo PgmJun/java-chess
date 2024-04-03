@@ -1,7 +1,6 @@
 package chess.infra.db.query;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.regex.Pattern;
@@ -30,12 +29,8 @@ public final class InsertQueryManager extends CrudQueryManager {
         return this;
     }
 
-    public InsertQueryManager executeUpdate() throws SQLException {
-        pstmt.executeUpdate();
-        return this;
-    }
-
-    public ResultSet getGeneratedKeys() throws SQLException {
-        return pstmt.getGeneratedKeys();
+    public AfterExecuteQueryManager execute() throws SQLException {
+        super.executeUpdate();
+        return new AfterExecuteQueryManager(super.getPreparedStatement());
     }
 }

@@ -29,8 +29,7 @@ public final class DeleteQueryManager extends CrudQueryManager {
         return this;
     }
 
-    public DeleteQueryManager executeUpdate() throws SQLException {
-        pstmt.executeUpdate();
-        return this;
+    public void execute() throws SQLException {
+        super.executeUpdate();
     }
 }

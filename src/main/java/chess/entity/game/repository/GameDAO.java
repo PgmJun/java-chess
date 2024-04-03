@@ -18,7 +18,7 @@ public class GameDAO implements GameRepository {
                 .setConnection(conn)
                 .insert("INSERT INTO game (turn) VALUES(?)")
                 .setString(1, game.getTurn().now().name())
-                .executeUpdate()
+                .execute()
                 .getGeneratedKeys();
 
         generatedKeys.next();
@@ -30,7 +30,7 @@ public class GameDAO implements GameRepository {
         ResultSet resultSet = QueryManager
                 .setConnection(conn)
                 .select("SELECT * FROM game ORDER BY game.game_id DESC LIMIT 1")
-                .executeQuery();
+                .execute();
 
         Optional<GameEntity> result = Optional.empty();
         if (resultSet.next()) {
@@ -50,7 +50,7 @@ public class GameDAO implements GameRepository {
                 .update("UPDATE game SET game.turn = ? WHERE game.game_id = ?")
                 .setString(1, now.name())
                 .setLong(2, gameId)
-                .executeUpdate();
+                .execute();
     }
 
     @Override
@@ -58,7 +58,7 @@ public class GameDAO implements GameRepository {
         QueryManager
                 .setConnection(conn)
                 .delete("DELETE FROM game")
-                .executeUpdate();
+                .execute();
     }
 
     @Override
@@ -67,6 +67,6 @@ public class GameDAO implements GameRepository {
                 .setConnection(conn)
                 .delete("DELETE FROM game WHERE game.game_id = ?")
                 .setLong(1, gameId)
-                .executeUpdate();
+                .execute();
     }
 }
