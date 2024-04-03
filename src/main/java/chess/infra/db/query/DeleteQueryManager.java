@@ -5,13 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class DeleteQueryManager {
-    private Connection conn;
     private PreparedStatement pstmt;
     private int parameterIndex;
 
     public DeleteQueryManager(Connection conn, String query) throws SQLException {
         super();
-        this.conn = conn;
         this.pstmt = conn.prepareStatement(query);
         this.parameterIndex = 1;
     }

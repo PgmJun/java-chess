@@ -8,48 +8,9 @@ import chess.infra.db.query.QueryManager;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class GameDAO implements GameRepository {
-
-    @Override
-    public List<GameEntity> findAll(Connection conn) throws SQLException {
-        ResultSet resultSet = QueryManager
-                .setConnection(conn)
-                .select("SELECT * FROM game")
-                .executeQuery();
-
-        List<GameEntity> results = new ArrayList<>();
-        while (resultSet.next()) {
-            long id = resultSet.getLong("id");
-            String turnColor = resultSet.getString("turn");
-            Turn turn = new Turn(PieceColor.valueOf(turnColor));
-            results.add(new GameEntity(id, turn));
-        }
-
-        return results;
-    }
-
-    @Override
-    public Optional<GameEntity> findById(Connection conn, Long id) throws SQLException {
-        ResultSet resultSet = QueryManager
-                .setConnection(conn)
-                .select("SELECT * FROM game WHERE game.game_id = ?")
-                .setLong(id)
-                .executeQuery();
-
-        Optional<GameEntity> result = Optional.empty();
-        if (resultSet.next()) {
-            long gameId = resultSet.getLong("id");
-            String turnColor = resultSet.getString("turn");
-            Turn turn = new Turn(PieceColor.valueOf(turnColor));
-            result = Optional.of(new GameEntity(gameId, turn));
-        }
-
-        return result;
-    }
 
     @Override
     public Long add(Connection conn, GameEntity game) throws SQLException {

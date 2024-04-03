@@ -15,6 +15,7 @@ import java.util.List;
 
 public class PieceDAO implements PieceRepository {
 
+    // TODO: SQLException 외부에서 처리하도록 수정
     @Override
     public List<PieceEntity> findByGameId(Connection conn, final Long gameId) throws SQLException {
         ResultSet resultSet = QueryManager.setConnection(conn)

@@ -6,13 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SelectQueryManager {
-    private Connection conn;
     private PreparedStatement pstmt;
     private int parameterIndex;
 
     public SelectQueryManager(Connection conn, String query) throws SQLException {
         super();
-        this.conn = conn;
         this.pstmt = conn.prepareStatement(query);
         this.parameterIndex = 1;
     }

@@ -7,13 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class InsertQueryManager {
-    private Connection conn;
     private PreparedStatement pstmt;
     private int parameterIndex;
 
     public InsertQueryManager(Connection conn, String query) throws SQLException {
         super();
-        this.conn = conn;
         this.pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         this.parameterIndex = 1;
     }
