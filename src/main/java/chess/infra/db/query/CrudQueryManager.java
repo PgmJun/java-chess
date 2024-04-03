@@ -7,7 +7,7 @@ import java.sql.SQLException;
 sealed class CrudQueryManager permits InsertQueryManager, SelectQueryManager, UpdateQueryManager, DeleteQueryManager {
     private final PreparedStatement pstmt;
 
-    protected CrudQueryManager(PreparedStatement pstmt) {
+    protected CrudQueryManager(final PreparedStatement pstmt) {
         this.pstmt = pstmt;
     }
 

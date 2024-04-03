@@ -8,7 +8,7 @@ public class AfterExecuteQueryManager {
 
     private final PreparedStatement pstmt;
 
-    public AfterExecuteQueryManager(PreparedStatement pstmt) {
+    public AfterExecuteQueryManager(final PreparedStatement pstmt) {
         this.pstmt = pstmt;
     }
 

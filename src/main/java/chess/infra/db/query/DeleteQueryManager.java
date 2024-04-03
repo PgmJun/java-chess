@@ -7,12 +7,12 @@ import java.util.regex.Pattern;
 public final class DeleteQueryManager extends CrudQueryManager {
     private static final Pattern DELETE_PATTERN = Pattern.compile("(?i)^delete\s.*");
 
-    public DeleteQueryManager(Connection conn, String query) throws SQLException {
+    public DeleteQueryManager(final Connection conn, final String query) throws SQLException {
         super(conn.prepareStatement(query));
         validate(query);
     }
 
-    private void validate(String query) {
+    private void validate(final String query) {
         if (!DELETE_PATTERN.matcher(query).matches()) {
             System.out.println(query);
             throw new IllegalArgumentException("삭제 쿼리는 DELETE 구문으로 시작해야합니다.");

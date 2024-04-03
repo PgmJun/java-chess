@@ -6,23 +6,23 @@ import java.sql.SQLException;
 public class ConnectedQueryManager {
     private Connection conn;
 
-    public ConnectedQueryManager(Connection conn) {
+    public ConnectedQueryManager(final Connection conn) {
         this.conn = conn;
     }
 
-    public InsertQueryManager insert(String query) throws SQLException {
+    public InsertQueryManager insert(final String query) throws SQLException {
         return new InsertQueryManager(conn, query);
     }
 
-    public SelectQueryManager select(String query) throws SQLException {
+    public SelectQueryManager select(final String query) throws SQLException {
         return new SelectQueryManager(conn, query);
     }
 
-    public UpdateQueryManager update(String query) throws SQLException {
+    public UpdateQueryManager update(final String query) throws SQLException {
         return new UpdateQueryManager(conn, query);
     }
 
-    public DeleteQueryManager delete(String query) throws SQLException {
+    public DeleteQueryManager delete(final String query) throws SQLException {
         return new DeleteQueryManager(conn, query);
     }
 }
