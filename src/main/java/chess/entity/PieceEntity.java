@@ -1,21 +1,17 @@
 package chess.entity;
 
 import chess.domain.piece.Piece;
-import chess.domain.piece.PieceColor;
-import chess.domain.piece.PieceType;
-import chess.domain.position.ChessFile;
-import chess.domain.position.ChessRank;
 import chess.domain.position.Position;
 
 public class PieceEntity {
     private Long id;
     private Long gameId;
-    private PieceType type;
-    private PieceColor color;
-    private ChessRank rank;
-    private ChessFile file;
+    private String type;
+    private String color;
+    private String rank;
+    private String file;
 
-    public PieceEntity(Long id, Long gameId, PieceType type, PieceColor color, ChessRank rank, ChessFile file) {
+    public PieceEntity(Long id, Long gameId, String type, String color, String rank, String file) {
         this.id = id;
         this.gameId = gameId;
         this.type = type;
@@ -26,10 +22,10 @@ public class PieceEntity {
 
     public PieceEntity(final Long gameId, final Position position, final Piece piece) {
         this.gameId = gameId;
-        this.type = piece.type();
-        this.color = piece.color();
-        this.rank = position.rank();
-        this.file = position.file();
+        this.type = piece.type().name();
+        this.color = piece.color().name();
+        this.rank = position.rank().name();
+        this.file = position.file().name();
     }
 
     public Long getId() {
@@ -40,19 +36,19 @@ public class PieceEntity {
         return gameId;
     }
 
-    public PieceType getType() {
+    public String getType() {
         return type;
     }
 
-    public PieceColor getColor() {
+    public String getColor() {
         return color;
     }
 
-    public ChessRank getRank() {
+    public String getRank() {
         return rank;
     }
 
-    public ChessFile getFile() {
+    public String getFile() {
         return file;
     }
 }

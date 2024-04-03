@@ -5,6 +5,10 @@ import chess.domain.board.ChessBoardGenerator;
 import chess.domain.game.ChessGame;
 import chess.domain.game.Turn;
 import chess.domain.piece.Piece;
+import chess.domain.piece.PieceColor;
+import chess.domain.piece.PieceType;
+import chess.domain.position.ChessFile;
+import chess.domain.position.ChessRank;
 import chess.domain.position.Position;
 import chess.entity.PieceEntity;
 import chess.entity.game.GameEntity;
@@ -50,39 +54,38 @@ public class GameService {
 
     private ChessGame findGameByIdAndTurn(final Connection connection, final Long gameId, final Turn turn) {
         return TransactionManager.read(connection, conn -> {
-            Map<Position, Piece> board = new HashMap<>();
             List<PieceEntity> pieceEntities = pieceRepository.findByGameId(conn, gameId);
-            for (PieceEntity pieceEntity : pieceEntities) {
-                Piece piece = new Piece(pieceEntity.getId(), pieceEntity.getType(), pieceEntity.getColor());
-                Position position = Position.of(pieceEntity.getFile(), pieceEntity.getRank());
-                board.put(position, piece);
-            }
-
-            return new ChessGame(gameId, new ChessBoard(board), turn);
+            return createGameByPieceEntities(pieceEntities, gameId, turn);
         });
     }
 
     public ChessGame loadGame() {
         return TransactionManager.read(DBConnectionPool.getConnection(), conn -> {
-            GameEntity gameEntity = gameRepository.findLastGame(conn).orElseThrow(
-                    () -> new IllegalArgumentException("가장 최근 플레이한 게임이 존재하지 않습니다."));
+            GameEntity gameEntity = gameRepository.findLastGame(conn).orElseThrow(() -> new IllegalArgumentException("가장 최근 플레이한 게임이 존재하지 않습니다."));
             List<PieceEntity> pieceEntities = pieceRepository.findByGameId(conn, gameEntity.getId());
 
-            ChessBoard chessBoard = createBoardByPieceEntities(pieceEntities);
-            return new ChessGame(gameEntity.getId(), chessBoard, gameEntity.getTurn());
+            PieceColor turnColor = PieceColor.valueOf(gameEntity.getTurn());
+            return createGameByPieceEntities(pieceEntities, gameEntity.getId(), new Turn(turnColor));
         });
     }
 
-    private ChessBoard createBoardByPieceEntities(final List<PieceEntity> pieceEntities) {
+    private ChessGame createGameByPieceEntities(final List<PieceEntity> pieceEntities, final Long gameId, final Turn turn) {
         Map<Position, Piece> board = new HashMap<>();
         for (PieceEntity pieceEntity : pieceEntities) {
-            Piece piece = new Piece(pieceEntity.getId(), pieceEntity.getType(), pieceEntity.getColor());
-            Position position = Position.of(pieceEntity.getFile(), pieceEntity.getRank());
+            PieceType type = PieceType.valueOf(pieceEntity.getType());
+            PieceColor color = PieceColor.valueOf(pieceEntity.getColor());
+
+            ChessFile file = ChessFile.valueOf(pieceEntity.getFile());
+            ChessRank rank = ChessRank.valueOf(pieceEntity.getRank());
+
+            Piece piece = new Piece(pieceEntity.getId(), type, color);
+            Position position = Position.of(file, rank);
 
             board.put(position, piece);
         }
         ChessBoard chessBoard = new ChessBoard(board);
-        return chessBoard;
+
+        return new ChessGame(gameId, chessBoard, turn);
     }
 
     public void updateGame(final Long gameId, final Turn turn, final Long pieceId, final Position target) {

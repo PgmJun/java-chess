@@ -1,6 +1,5 @@
 package chess.entity.game.repository;
 
-import chess.domain.game.Turn;
 import chess.domain.piece.PieceColor;
 import chess.entity.game.GameEntity;
 import chess.infra.db.query.QueryManager;
@@ -17,7 +16,7 @@ public class GameDAO implements GameRepository {
         ResultSet generatedKeys = QueryManager
                 .setConnection(conn)
                 .insert("INSERT INTO game (turn) VALUES(?)")
-                .setString(1, game.getTurn().now().name())
+                .setString(1, game.getTurn())
                 .execute()
                 .getGeneratedKeys();
 
@@ -35,8 +34,7 @@ public class GameDAO implements GameRepository {
         Optional<GameEntity> result = Optional.empty();
         if (resultSet.next()) {
             long gameId = resultSet.getLong("game_id");
-            String turnColor = resultSet.getString("turn");
-            Turn turn = new Turn(PieceColor.valueOf(turnColor));
+            String turn = resultSet.getString("turn");
             result = Optional.of(new GameEntity(gameId, turn));
         }
 

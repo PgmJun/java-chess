@@ -1,7 +1,5 @@
 package chess.entity.piece.repository;
 
-import chess.domain.piece.PieceColor;
-import chess.domain.piece.PieceType;
 import chess.domain.position.ChessFile;
 import chess.domain.position.ChessRank;
 import chess.entity.PieceEntity;
@@ -25,10 +23,10 @@ public class PieceDAO implements PieceRepository {
         List<PieceEntity> results = new ArrayList<>();
         while (resultSet.next()) {
             long id = resultSet.getLong("piece_id");
-            PieceType type = PieceType.valueOf(resultSet.getString("type"));
-            PieceColor color = PieceColor.valueOf(resultSet.getString("color"));
-            ChessRank rank = ChessRank.valueOf(resultSet.getString("rank"));
-            ChessFile file = ChessFile.valueOf(resultSet.getString("file"));
+            String type = resultSet.getString("type");
+            String color = resultSet.getString("color");
+            String rank = resultSet.getString("rank");
+            String file = resultSet.getString("file");
 
             results.add(new PieceEntity(id, gameId, type, color, rank, file));
         }
@@ -40,10 +38,10 @@ public class PieceDAO implements PieceRepository {
         ResultSet generatedKeys = QueryManager.setConnection(conn)
                 .insert("INSERT INTO piece (`game_id`, `type`, `color`, `rank`, `file`) VALUES (?, ?, ?, ?, ?)")
                 .setLong(1, pieceEntity.getGameId())
-                .setString(2, pieceEntity.getType().name())
-                .setString(3, pieceEntity.getColor().name())
-                .setString(4, pieceEntity.getRank().name())
-                .setString(5, pieceEntity.getFile().name())
+                .setString(2, pieceEntity.getType())
+                .setString(3, pieceEntity.getColor())
+                .setString(4, pieceEntity.getRank())
+                .setString(5, pieceEntity.getFile())
                 .execute()
                 .getGeneratedKeys();
 
