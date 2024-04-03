@@ -6,21 +6,19 @@ import java.sql.SQLException;
 
 public class DeleteQueryManager {
     private PreparedStatement pstmt;
-    private int parameterIndex;
 
     public DeleteQueryManager(Connection conn, String query) throws SQLException {
         super();
         this.pstmt = conn.prepareStatement(query);
-        this.parameterIndex = 1;
     }
 
-    public DeleteQueryManager setString(final String value) throws SQLException {
-        this.pstmt.setString(parameterIndex++, value);
+    public DeleteQueryManager setString(final int paramIndex, final String value) throws SQLException {
+        this.pstmt.setString(paramIndex, value);
         return this;
     }
 
-    public DeleteQueryManager setLong(final Long value) throws SQLException {
-        this.pstmt.setLong(parameterIndex++, value);
+    public DeleteQueryManager setLong(final int paramIndex, final Long value) throws SQLException {
+        this.pstmt.setLong(paramIndex, value);
         return this;
     }
 

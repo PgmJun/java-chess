@@ -15,12 +15,11 @@ import java.util.List;
 
 public class PieceDAO implements PieceRepository {
 
-    // TODO: SQLException 외부에서 처리하도록 수정
     @Override
     public List<PieceEntity> findByGameId(Connection conn, final Long gameId) throws SQLException {
         ResultSet resultSet = QueryManager.setConnection(conn)
                 .select("SELECT * FROM piece WHERE piece.game_id = ?")
-                .setString(gameId.toString())
+                .setString(1, gameId.toString())
                 .executeQuery();
 
         List<PieceEntity> results = new ArrayList<>();
@@ -40,11 +39,11 @@ public class PieceDAO implements PieceRepository {
     public Long add(Connection conn, PieceEntity pieceEntity) throws SQLException {
         ResultSet generatedKeys = QueryManager.setConnection(conn)
                 .insert("INSERT INTO piece (`game_id`, `type`, `color`, `rank`, `file`) VALUES (?, ?, ?, ?, ?)")
-                .setLong(pieceEntity.getGameId())
-                .setString(pieceEntity.getType().name())
-                .setString(pieceEntity.getColor().name())
-                .setString(pieceEntity.getRank().name())
-                .setString(pieceEntity.getFile().name())
+                .setLong(1, pieceEntity.getGameId())
+                .setString(2, pieceEntity.getType().name())
+                .setString(3, pieceEntity.getColor().name())
+                .setString(4, pieceEntity.getRank().name())
+                .setString(5, pieceEntity.getFile().name())
                 .executeUpdate()
                 .getGeneratedKeys();
 
@@ -56,9 +55,9 @@ public class PieceDAO implements PieceRepository {
     public void updatePositionById(Connection conn, Long pieceId, ChessFile file, ChessRank rank) throws SQLException {
         QueryManager.setConnection(conn)
                 .update("UPDATE piece SET piece.file = ?, piece.rank = ? WHERE piece.piece_id = ?")
-                .setString(file.name())
-                .setString(rank.name())
-                .setLong(pieceId)
+                .setString(1, file.name())
+                .setString(2, rank.name())
+                .setLong(3, pieceId)
                 .executeUpdate();
     }
 

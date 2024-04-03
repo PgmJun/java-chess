@@ -8,21 +8,19 @@ import java.sql.Statement;
 
 public class InsertQueryManager {
     private PreparedStatement pstmt;
-    private int parameterIndex;
 
     public InsertQueryManager(Connection conn, String query) throws SQLException {
         super();
         this.pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-        this.parameterIndex = 1;
     }
 
-    public InsertQueryManager setString(final String value) throws SQLException {
-        this.pstmt.setString(parameterIndex++, value);
+    public InsertQueryManager setString(final int paramIndex, final String value) throws SQLException {
+        this.pstmt.setString(paramIndex, value);
         return this;
     }
 
-    public InsertQueryManager setLong(final Long value) throws SQLException {
-        this.pstmt.setLong(parameterIndex++, value);
+    public InsertQueryManager setLong(final int paramIndex, final Long value) throws SQLException {
+        this.pstmt.setLong(paramIndex, value);
         return this;
     }
 

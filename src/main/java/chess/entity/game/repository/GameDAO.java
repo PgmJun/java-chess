@@ -17,7 +17,7 @@ public class GameDAO implements GameRepository {
         ResultSet generatedKeys = QueryManager
                 .setConnection(conn)
                 .insert("INSERT INTO game (turn) VALUES(?)")
-                .setString(game.getTurn().now().name())
+                .setString(1, game.getTurn().now().name())
                 .executeUpdate()
                 .getGeneratedKeys();
 
@@ -48,8 +48,8 @@ public class GameDAO implements GameRepository {
         QueryManager
                 .setConnection(conn)
                 .update("UPDATE game SET game.turn = ? WHERE game.game_id = ?")
-                .setString(now.name())
-                .setLong(gameId)
+                .setString(1, now.name())
+                .setLong(2, gameId)
                 .executeUpdate();
     }
 
@@ -66,7 +66,7 @@ public class GameDAO implements GameRepository {
         QueryManager
                 .setConnection(conn)
                 .delete("DELETE FROM game WHERE game.game_id = ?")
-                .setLong(gameId)
+                .setLong(1, gameId)
                 .executeUpdate();
     }
 }

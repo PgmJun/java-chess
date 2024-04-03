@@ -6,21 +6,19 @@ import java.sql.SQLException;
 
 public class UpdateQueryManager {
     private PreparedStatement pstmt;
-    private int parameterIndex;
 
     public UpdateQueryManager(Connection conn, String query) throws SQLException {
         super();
         this.pstmt = conn.prepareStatement(query);
-        this.parameterIndex = 1;
     }
 
-    public UpdateQueryManager setString(final String value) throws SQLException {
-        this.pstmt.setString(parameterIndex++, value);
+    public UpdateQueryManager setString(final int paramIndex, final String value) throws SQLException {
+        this.pstmt.setString(paramIndex, value);
         return this;
     }
 
-    public UpdateQueryManager setLong(final Long value) throws SQLException {
-        this.pstmt.setLong(parameterIndex++, value);
+    public UpdateQueryManager setLong(final int paramIndex, final Long value) throws SQLException {
+        this.pstmt.setLong(paramIndex, value);
         return this;
     }
 

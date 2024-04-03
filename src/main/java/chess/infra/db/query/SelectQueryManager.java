@@ -7,21 +7,19 @@ import java.sql.SQLException;
 
 public class SelectQueryManager {
     private PreparedStatement pstmt;
-    private int parameterIndex;
 
     public SelectQueryManager(Connection conn, String query) throws SQLException {
         super();
         this.pstmt = conn.prepareStatement(query);
-        this.parameterIndex = 1;
     }
 
-    public SelectQueryManager setString(final String value) throws SQLException {
-        this.pstmt.setString(parameterIndex++, value);
+    public SelectQueryManager setString(final int paramIndex, final String value) throws SQLException {
+        this.pstmt.setString(paramIndex, value);
         return this;
     }
 
-    public SelectQueryManager setLong(final Long value) throws SQLException {
-        this.pstmt.setLong(parameterIndex++, value);
+    public SelectQueryManager setLong(final int paramIndex, final Long value) throws SQLException {
+        this.pstmt.setLong(paramIndex, value);
         return this;
     }
 
