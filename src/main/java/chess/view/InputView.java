@@ -29,7 +29,7 @@ public class InputView {
 
     public GameOption readGameOption() {
         System.out.println("> 게임 생성 : game new");
-        System.out.println("> 기존 게임 이어하기 : game continue");
+        System.out.println("> 게임 불러오기 : game load");
         System.out.print("> ");
         List<String> gameOption = Arrays.asList(scanner.nextLine().split(" "));
         validateGameOption(gameOption);

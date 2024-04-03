@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public enum GameOption {
     NEW("new"),
-    CONTINUE("continue");
+    LOAD("load");
 
     private final String text;
 

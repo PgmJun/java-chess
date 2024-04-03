@@ -43,7 +43,7 @@ public class ChessController {
         if (gameOption == GameOption.NEW) {
             return gameService.createNewGame();
         }
-        if (gameOption == GameOption.CONTINUE) {
+        if (gameOption == GameOption.LOAD) {
             return gameService.loadGame();
         }
         throw new IllegalArgumentException("존재하지 않는 명령어입니다.");
