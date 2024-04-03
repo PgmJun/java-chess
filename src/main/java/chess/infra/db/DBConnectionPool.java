@@ -1,7 +1,6 @@
 package chess.infra.db;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
@@ -12,11 +11,7 @@ public class DBConnectionPool {
     static {
         CONNECTION_POOL = new ArrayDeque<>();
         for (int i = 0; i < MAX_CONNECTION_SIZE; i++) {
-            try {
-                CONNECTION_POOL.add(DBConnectionGenerator.generate());
-            } catch (SQLException exception) {
-                throw new RuntimeException("데이터베이스와의 연결이 원활하지 않습니다.", exception);
-            }
+            CONNECTION_POOL.add(DBConnectionGenerator.generate());
         }
     }
 

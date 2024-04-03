@@ -11,7 +11,11 @@ public class DBConnectionGenerator {
     private static final String USERNAME = "chess"; //  MySQL 서버 아이디
     private static final String PASSWORD = "chess"; // MySQL 서버 비밀번호
 
-    static Connection generate() throws SQLException {
-        return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
+    static Connection generate() {
+        try {
+            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
+        } catch (SQLException exception) {
+            throw new RuntimeException("DB 연결에 실패하였습니다.");
+        }
     }
 }

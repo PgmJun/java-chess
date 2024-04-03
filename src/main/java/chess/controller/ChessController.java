@@ -10,7 +10,6 @@ import chess.view.GameOption;
 import chess.view.InputView;
 import chess.view.OutputView;
 
-import java.sql.SQLException;
 import java.util.function.Supplier;
 
 public class ChessController {
@@ -26,7 +25,7 @@ public class ChessController {
         this.gameCommand = new InitCommand();
     }
 
-    public void start() throws SQLException {
+    public void start() {
         outputView.printGameStartMessage();
         ChessGame game = retry(this::selectGame);
 

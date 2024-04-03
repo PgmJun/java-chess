@@ -7,15 +7,11 @@ import chess.service.GameService;
 import chess.view.InputView;
 import chess.view.OutputView;
 
-import java.sql.SQLException;
-
 public class ChessApplication {
-    public static void main(String[] args) throws SQLException {
-        final ChessController chessController = new ChessController(
-                InputView.getInstance(),
-                OutputView.getInstance(),
-                new GameService(new GameDAO(), new PieceDAO())
-        );
+    public static void main(String[] args) {
+        GameService gameService = new GameService(new GameDAO(), new PieceDAO());
+        final ChessController chessController = new ChessController(InputView.getInstance(), OutputView.getInstance(), gameService);
+
         chessController.start();
     }
 }
