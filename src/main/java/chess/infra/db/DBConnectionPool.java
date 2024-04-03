@@ -14,8 +14,8 @@ public class DBConnectionPool {
         for (int i = 0; i < MAX_CONNECTION_SIZE; i++) {
             try {
                 CONNECTION_POOL.add(DBConnectionGenerator.generate());
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+            } catch (SQLException exception) {
+                throw new RuntimeException("데이터베이스와의 연결이 원활하지 않습니다.", exception);
             }
         }
     }
